@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">GoalScout Agent composer icon</title>
+  <desc id="desc">Compact football agent icon with live alert signal.</desc>
+  <defs>
+    <linearGradient id="bg" x1="14" y1="8" x2="116" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#031F1A"/>
+      <stop offset="0.56" stop-color="#15803D"/>
+      <stop offset="1" stop-color="#12324A"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <path d="M22 64h84M34 36h60M34 92h60" stroke="#D9FFE9" stroke-width="4" opacity="0.22" stroke-linecap="round"/>
+  <path d="M31 31c17-15 49-15 66 0" fill="none" stroke="#7DD3FC" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="59" cy="73" r="30" fill="#F8FAFC"/>
+  <path d="M59 48l13 9-5 15H51l-5-15z" fill="#0B1220"/>
+  <path d="M46 57l-11-4M72 57l11-4M51 72l-8 11M67 72l8 11" stroke="#0B1220" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="92" cy="37" r="16" fill="#F8FAFC"/>
+  <path d="M92 26v6M92 42v6M81 37h6M97 37h6" stroke="#0B1220" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="92" cy="37" r="7" fill="#16A34A"/>
+  <circle cx="104" cy="24" r="8" fill="#EF4444" stroke="#F8FAFC" stroke-width="3"/>
+</svg>

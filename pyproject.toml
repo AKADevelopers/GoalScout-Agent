@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goalscout-agent"
+version = "0.1.0"
+description = "Portable GoalScout Agent watcher for live football notifications."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/AKADevelopers/GoalScout-Agent"
+Repository = "https://github.com/AKADevelopers/GoalScout-Agent"
+Issues = "https://github.com/AKADevelopers/GoalScout-Agent/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+goalscout-agent = "football_live_agent.cli:main"
+football-live-agent = "football_live_agent.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
