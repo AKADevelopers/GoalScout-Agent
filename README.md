@@ -14,8 +14,10 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 - Live goal and key-event notifications.
 - OpenClaw, Hermes, webhook, custom command, and console delivery.
 - Persistent memory for the last match, last alert, and recent football context.
+- Legal where-to-watch guidance with saved user platforms.
 - No-key SportScore provider by default.
 - Optional API-Football provider for users with a paid or free provider key.
+- Optional BYOK TV/broadcast providers: Sportmonks TV Stations and TheSportsDB TV broadcasts, with enterprise placeholders for Sportradar, Gracenote, and JustWatch.
 - Background watcher for always-on notifications.
 - Professional Codex/OpenClaw/Hermes skill metadata and icons.
 
@@ -67,6 +69,32 @@ For a custom platform command:
 $env:FOOTBALL_AGENT_CHANNEL_COMMAND = "openclaw message send --channel {channel} --target {target} --message {message}"
 ```
 
+## Where To Watch
+
+GoalScout Agent can store the country where you watch matches and the legal platforms you already have, then compare official broadcast listings against them.
+
+Run the simple guide:
+
+```powershell
+goalscout-agent where-to-watch
+```
+
+Use Sportmonks TV Stations with your own key:
+
+```powershell
+$env:SPORTMONKS_API_KEY = "<your-sportmonks-token>"
+goalscout-agent where-to-watch <sportmonks-fixture-id> --provider sportmonks
+```
+
+Use TheSportsDB TV broadcasts with your own key:
+
+```powershell
+$env:THESPORTSDB_API_KEY = "<your-thesportsdb-key>"
+goalscout-agent where-to-watch <thesportsdb-event-id> --provider thesportsdb
+```
+
+GoalScout Agent only provides official TV/streaming guidance. It does not provide illegal streams, paywall bypasses, or pirated rebroadcast links.
+
 ## Commands
 
 ```powershell
@@ -75,6 +103,7 @@ goalscout-agent preferences
 goalscout-agent memory
 goalscout-agent health-check
 goalscout-agent test-notification
+goalscout-agent where-to-watch
 goalscout-agent once
 goalscout-agent watch
 goalscout-agent start-background

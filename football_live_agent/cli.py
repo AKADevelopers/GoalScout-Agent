@@ -18,6 +18,15 @@ from football_live_agent.providers.sportscore import SportScoreProvider
 from football_live_agent.service import pid_status, start_background, stop_background
 from football_live_agent.state import JsonState
 from football_live_agent.watcher import run_once, watch_forever
+from football_live_agent.where_to_watch import (
+    GuideWatchProvider,
+    SetupOnlyWatchProvider,
+    SportmonksTVProvider,
+    TheSportsDBTVProvider,
+    WatchProviderError,
+    format_watch_summary,
+    normalize_provider,
+)
 
 
 def build_provider(settings: Settings) -> FootballProvider:
@@ -85,6 +94,32 @@ def provider_update(provider: FootballProvider) -> str | None:
     return str(update())
 
 
+def build_watch_provider(settings: Settings, preferences: Preferences, provider_name: str | None = None):
+    provider = normalize_provider(provider_name or settings.watch_provider or preferences.watch_provider)
+    if provider == "guide":
+        return GuideWatchProvider()
+    if provider == "sportmonks":
+        return SportmonksTVProvider(settings.sportmonks_key or "")
+    if provider == "thesportsdb":
+        return TheSportsDBTVProvider(settings.thesportsdb_key or "")
+    if provider == "sportradar":
+        return SetupOnlyWatchProvider(
+            "sportradar",
+            "Sportradar where-to-watch lookup is an enterprise BYOK option. Set SPORTRADAR_API_KEY after your Sportradar contract is active.",
+        )
+    if provider == "gracenote":
+        return SetupOnlyWatchProvider(
+            "gracenote",
+            "Gracenote On API is an enterprise BYOK option for official live sports broadcast and streaming listings. Set GRACENOTE_API_KEY after your contract is active.",
+        )
+    if provider == "justwatch":
+        return SetupOnlyWatchProvider(
+            "justwatch",
+            "JustWatch sports/partner lookup requires a partner token. Set JUSTWATCH_PARTNER_TOKEN after your partner access is active.",
+        )
+    raise SystemExit(f"Unsupported where-to-watch provider: {provider}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="GoalScout Agent live football notification watcher")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -98,6 +133,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     subcommands.add_parser("status")
     subcommands.add_parser("stop")
     subcommands.add_parser("test-notification")
+    watch_parser = subcommands.add_parser("where-to-watch")
+    watch_parser.add_argument("fixture_id", nargs="?")
+    watch_parser.add_argument("--provider", dest="watch_provider")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     settings = load_settings()
@@ -133,6 +171,22 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "health-check":
         send_health_check(build_notifiers(settings, preferences))
+        return 0
+
+    if args.command == "where-to-watch":
+        provider = build_watch_provider(settings, preferences, getattr(args, "watch_provider", None))
+        try:
+            options = provider.options_for_fixture(args.fixture_id) if args.fixture_id else []
+        except WatchProviderError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(
+            format_watch_summary(
+                preferences,
+                options,
+                provider_name=provider.provider_name,
+                fixture_id=args.fixture_id,
+            )
+        )
         return 0
 
     if args.command == "start-background":

@@ -11,12 +11,13 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 
 1. Check whether local preferences exist in `.football-live-agent/preferences.json`.
 2. If preferences are missing, run onboarding with `goalscout-agent onboard` or `python -m football_live_agent.cli onboard`.
-3. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, and target chat.
+3. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, target chat, watch country, watching platforms, and where-to-watch provider.
 4. For free live alerts, use the default SportScore provider and run `goalscout-agent watch`.
 5. For a single check, run `goalscout-agent once`. If no matching football event is live, it sends a health-check message plus a SportScore football update using recent results and upcoming fixtures.
 6. For webhook delivery to Hermes, OpenClaw, Discord, Telegram, or an automation bridge, set `FOOTBALL_AGENT_WEBHOOK_URL`.
 7. For API-Football instead of SportScore, set `FOOTBALL_AGENT_PROVIDER=api-football` and provide `API_FOOTBALL_KEY`.
 8. For always-on alerts after setup, run `goalscout-agent start-background`.
+9. For legal TV/streaming guidance, run `goalscout-agent where-to-watch` or `goalscout-agent where-to-watch <provider-fixture-id> --provider sportmonks`.
 
 ## User Preferences
 
@@ -34,6 +35,9 @@ Collect these fields during setup:
 - Message target, chat ID, username, or group name.
 - Optional webhook URL.
 - Optional custom channel command.
+- Watch country.
+- Watching platforms the user has, such as DAZN, ESPN+, Peacock, Paramount+, Apple TV, Sky Sports, beIN Sports, Fubo, Prime Video, FIFA+, Tapmad, or SonyLIV.
+- Where-to-watch provider: `guide`, `sportmonks`, `thesportsdb`, `sportradar`, `gracenote`, or `justwatch`.
 
 ## Answering Football Requests
 
@@ -57,6 +61,8 @@ goalscout-agent preferences
 goalscout-agent memory
 goalscout-agent health-check
 goalscout-agent test-notification
+goalscout-agent where-to-watch
+goalscout-agent where-to-watch <provider-fixture-id> --provider sportmonks
 goalscout-agent once
 goalscout-agent watch
 goalscout-agent start-background
@@ -112,6 +118,19 @@ Do not provide betting instructions, odds advice, illegal streams, or paywall by
 ## Provider Notes
 
 Read `references/provider-notes.md` when configuring live data providers or explaining latency tradeoffs.
+
+Read `references/watch-providers.md` when configuring legal where-to-watch lookup, official TV/streaming provider categories, or BYOK broadcast-listing providers.
+
+## Where To Watch
+
+GoalScout Agent can store the user's legal watching platforms and compare official broadcast listings against them. It must not provide illegal streams, paywall bypasses, account sharing, stream ripping, or unofficial rebroadcast links.
+
+Supported where-to-watch modes:
+
+- `guide`: no API key, shows saved country/platforms and provider categories.
+- `sportmonks`: requires `SPORTMONKS_API_KEY`, uses Sportmonks TV Stations by fixture ID.
+- `thesportsdb`: requires `THESPORTSDB_API_KEY`, uses TheSportsDB event TV broadcasts by event ID.
+- `sportradar`, `gracenote`, `justwatch`: enterprise/partner BYOK placeholders.
 
 ## Memory
 

@@ -11,6 +11,9 @@ def test_load_settings_uses_environment(monkeypatch, tmp_path):
     monkeypatch.setenv("FOOTBALL_AGENT_POLL_SECONDS", "5")
     monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
     monkeypatch.setenv("FOOTBALL_AGENT_WEBHOOK_URL", "https://example.test/hook")
+    monkeypatch.setenv("GOALSCOUT_WATCH_PROVIDER", "sportmonks")
+    monkeypatch.setenv("SPORTMONKS_API_KEY", "sportmonks-secret")
+    monkeypatch.setenv("THESPORTSDB_API_KEY", "sportsdb-secret")
 
     settings = load_settings()
 
@@ -20,6 +23,9 @@ def test_load_settings_uses_environment(monkeypatch, tmp_path):
     assert settings.data_dir == tmp_path
     assert settings.webhook_url == "https://example.test/hook"
     assert settings.delivery == "console"
+    assert settings.watch_provider == "sportmonks"
+    assert settings.sportmonks_key == "sportmonks-secret"
+    assert settings.thesportsdb_key == "sportsdb-secret"
 
 
 def test_load_settings_defaults_to_no_key_sportscore(monkeypatch):
@@ -82,6 +88,9 @@ def test_run_onboarding_saves_channel_delivery(monkeypatch, tmp_path):
             "Argentina, Inter Miami",
             "Messi",
             "World Cup",
+            "United States",
+            "Peacock, Fubo",
+            "sportmonks",
             "goal, red_card",
             "Asia/Karachi",
             "",
@@ -100,3 +109,6 @@ def test_run_onboarding_saves_channel_delivery(monkeypatch, tmp_path):
     assert preferences.delivery == "openclaw"
     assert preferences.channel == "telegram"
     assert preferences.target == "@football"
+    assert preferences.watch_country == "United States"
+    assert preferences.watch_platforms == ["Peacock", "Fubo"]
+    assert preferences.watch_provider == "sportmonks"

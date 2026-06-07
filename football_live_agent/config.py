@@ -17,6 +17,12 @@ class Settings:
     channel: str | None
     target: str | None
     console_enabled: bool
+    watch_provider: str = "guide"
+    sportmonks_key: str | None = None
+    thesportsdb_key: str | None = None
+    sportradar_key: str | None = None
+    gracenote_key: str | None = None
+    justwatch_token: str | None = None
 
 
 def load_settings() -> Settings:
@@ -38,4 +44,10 @@ def load_settings() -> Settings:
         channel=os.environ.get("FOOTBALL_AGENT_CHANNEL"),
         target=os.environ.get("FOOTBALL_AGENT_TARGET"),
         console_enabled=os.environ.get("FOOTBALL_AGENT_CONSOLE", "1").strip().casefold() not in {"0", "false", "no", "off"},
+        watch_provider=os.environ.get("GOALSCOUT_WATCH_PROVIDER", os.environ.get("FOOTBALL_AGENT_WATCH_PROVIDER", "guide")),
+        sportmonks_key=os.environ.get("SPORTMONKS_API_KEY") or os.environ.get("SPORTMONKS_API_TOKEN"),
+        thesportsdb_key=os.environ.get("THESPORTSDB_API_KEY"),
+        sportradar_key=os.environ.get("SPORTRADAR_API_KEY"),
+        gracenote_key=os.environ.get("GRACENOTE_API_KEY"),
+        justwatch_token=os.environ.get("JUSTWATCH_PARTNER_TOKEN"),
     )

@@ -185,3 +185,28 @@ def test_health_check_sends_status_message(monkeypatch, tmp_path, capsys):
     assert main(["health-check"]) == 0
 
     assert "GoalScout Agent is working" in capsys.readouterr().out
+
+
+def test_where_to_watch_command_prints_user_platform_guide(monkeypatch, tmp_path, capsys):
+    save_preferences(
+        tmp_path / "preferences.json",
+        Preferences(
+            favorite_country="",
+            favorite_teams=[],
+            favorite_players=[],
+            competitions=[],
+            alert_types=["goal"],
+            timezone="Asia/Karachi",
+            watch_country="United States",
+            watch_platforms=["Peacock", "Fubo"],
+            watch_provider="guide",
+        ),
+    )
+    monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
+
+    assert main(["where-to-watch"]) == 0
+
+    output = capsys.readouterr().out
+    assert "Where to watch setup" in output
+    assert "United States" in output
+    assert "Peacock, Fubo" in output

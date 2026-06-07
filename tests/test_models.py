@@ -72,6 +72,9 @@ def test_preferences_store_delivery_memory_fields():
         channel="telegram",
         target="@football",
         channel_command=None,
+        watch_country="United States",
+        watch_platforms=["Peacock", "Fubo"],
+        watch_provider="sportmonks",
     )
 
     reloaded = Preferences.from_dict(preferences.to_dict())
@@ -79,3 +82,6 @@ def test_preferences_store_delivery_memory_fields():
     assert reloaded.delivery == "openclaw"
     assert reloaded.channel == "telegram"
     assert reloaded.target == "@football"
+    assert reloaded.watch_country == "United States"
+    assert reloaded.watch_platforms == ["Peacock", "Fubo"]
+    assert reloaded.watch_provider == "sportmonks"

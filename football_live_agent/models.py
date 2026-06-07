@@ -56,6 +56,9 @@ class Preferences:
     channel: str | None = None
     target: str | None = None
     channel_command: str | None = None
+    watch_country: str = ""
+    watch_platforms: list[str] = field(default_factory=list)
+    watch_provider: str = "guide"
 
     def should_notify(self, match: Match, event: Event) -> bool:
         if "all" not in self._alert_types and _norm(event.event_type) not in self._alert_types:
@@ -107,4 +110,7 @@ class Preferences:
             channel=data.get("channel"),
             target=data.get("target"),
             channel_command=data.get("channel_command"),
+            watch_country=str(data.get("watch_country", "")),
+            watch_platforms=list(data.get("watch_platforms", [])),
+            watch_provider=str(data.get("watch_provider", "guide")),
         )

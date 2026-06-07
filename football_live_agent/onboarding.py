@@ -19,6 +19,14 @@ def run_onboarding(path: Path) -> Preferences:
     favorite_teams = ask_csv("Favorite teams or clubs, comma-separated: ")
     favorite_players = ask_csv("Favorite players, comma-separated: ")
     competitions = ask_csv("Competitions to follow, comma-separated: ")
+    watch_country = input("Country where you watch matches, optional: ").strip()
+    watch_platforms = ask_csv("Watching platforms you have, comma-separated, optional: ")
+    watch_provider = (
+        input("Where-to-watch provider: guide, sportmonks, thesportsdb, sportradar, gracenote, or justwatch: ")
+        .strip()
+        .casefold()
+        or "guide"
+    )
     alerts = ask_csv("Alert types, comma-separated. Leave blank for goals, red cards, kickoff, fulltime: ")
     timezone = input("Timezone, for example Asia/Karachi: ").strip() or "UTC"
     quiet_hours_start = input("Quiet hours start, optional HH:MM: ").strip() or None
@@ -43,6 +51,9 @@ def run_onboarding(path: Path) -> Preferences:
         channel=channel,
         target=target,
         channel_command=channel_command,
+        watch_country=watch_country,
+        watch_platforms=watch_platforms,
+        watch_provider=watch_provider,
     )
     save_preferences(path, preferences)
     return preferences
