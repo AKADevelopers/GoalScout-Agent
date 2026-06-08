@@ -8,6 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,7 @@ from football_live_agent.providers.api_football import ProviderError
 BASE_URL = "https://sportscore.com/api/widget"
 SOURCE_ID = "goalscout-agent"
 LIVE_MATCH_STATUSES = {"live", "inplay", "in_play", "1h", "2h", "ht", "halftime", "extra_time", "penalties"}
+FRIENDLY_KEYWORDS = ("friendly", "warmup", "warm-up")
 
 
 class SportScoreProvider:
@@ -55,18 +57,31 @@ class SportScoreProvider:
         self._last_matches_payload = None
         matches = [normalize_match(item) for item in payload.get("matches", [])]
         live = [match for match in matches if _is_watchable_status(match.status)]
-        recent = [match for match in matches if _is_finished_status(match.status)]
-        upcoming = [match for match in matches if _is_upcoming_status(match.status)]
+        recent = sorted(
+            [match for match in matches if _is_finished_status(match.status)],
+            key=_kickoff_timestamp,
+            reverse=True,
+        )
+        upcoming = sorted(
+            [match for match in matches if _is_upcoming_status(match.status)],
+            key=_upcoming_sort_key,
+        )
 
         parts = []
         if live:
             parts.append(f"Football is live now: {live[0].scoreline} in {live[0].league}. I will notify you about goals and key events.")
         else:
-            parts.append("Football is not live for your alert right now. When matches start, I will notify you.")
-        if recent:
-            parts.append(f"Latest result: {recent[0].scoreline} in {recent[0].league}.")
-        if upcoming:
-            parts.append(f"Next fixture: {upcoming[0].home_team} vs {upcoming[0].away_team} in {upcoming[0].league}.")
+            parts.append("No live football match is currently returned by the football feed.")
+        recent_friendlies = [match for match in recent if _is_friendly_or_warmup(match)]
+        upcoming_friendlies = [match for match in upcoming if _is_friendly_or_warmup(match)]
+        if recent_friendlies:
+            parts.append(f"Recent friendly/warmup result: {_format_result(recent_friendlies[0])}.")
+        elif recent:
+            parts.append(f"Latest result: {_format_result(recent[0])}.")
+        if upcoming_friendlies:
+            parts.append(f"Upcoming friendlies/warmups: {_format_fixtures(upcoming_friendlies, limit=3)}.")
+        elif upcoming:
+            parts.append(f"Next fixture: {_format_fixture(upcoming[0])}.")
         if len(parts) == 1:
             parts.append("No recent result or upcoming fixture was returned by SportScore right now.")
         return " ".join(parts)
@@ -255,3 +270,42 @@ def _is_finished_status(status: str) -> bool:
 def _is_upcoming_status(status: str) -> bool:
     normalized = status.strip().casefold()
     return normalized in {"upcoming", "not_started", "not started", "delayed"}
+
+
+def _is_friendly_or_warmup(match: Match) -> bool:
+    league = match.league.strip().casefold()
+    return any(keyword in league for keyword in FRIENDLY_KEYWORDS)
+
+
+def _format_result(match: Match) -> str:
+    return f"{match.scoreline} in {match.league}"
+
+
+def _format_fixture(match: Match) -> str:
+    return f"{match.home_team} vs {match.away_team} in {match.league}"
+
+
+def _format_fixtures(matches: list[Match], limit: int) -> str:
+    return "; ".join(_format_fixture(match) for match in matches[:limit])
+
+
+def _kickoff_timestamp(match: Match) -> float:
+    if not match.kickoff_at:
+        return 0.0
+    text = match.kickoff_at.strip()
+    if text.endswith("Z"):
+        text = f"{text[:-1]}+00:00"
+    try:
+        kickoff = datetime.fromisoformat(text)
+    except ValueError:
+        return 0.0
+    if kickoff.tzinfo is None:
+        kickoff = kickoff.replace(tzinfo=UTC)
+    return kickoff.timestamp()
+
+
+def _upcoming_sort_key(match: Match) -> tuple[int, float]:
+    timestamp = _kickoff_timestamp(match)
+    if timestamp <= 0:
+        return (1, 0.0)
+    return (0, timestamp)

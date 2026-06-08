@@ -87,6 +87,78 @@ class DigestSportScoreProvider(SportScoreProvider):
         }
 
 
+class FriendlyDigestSportScoreProvider(SportScoreProvider):
+    def __init__(self):
+        super().__init__()
+
+    def _get(self, path, params):
+        assert path == "/matches/"
+        return {
+            "matches": [
+                {
+                    "home": "Miramar Misiones FC",
+                    "away": "Oriental",
+                    "home_score": 2,
+                    "away_score": 2,
+                    "status": "finished",
+                    "competition": "Uruguay Segunda League",
+                    "url": "/football/match/oriental-vs-miramar-misiones-fc/",
+                    "time": "2026-06-08T00:00:00+00:00",
+                },
+                {
+                    "home": "France Women U23",
+                    "away": "USA Women U20",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "finished",
+                    "competition": "International Friendly",
+                    "url": "/football/match/france-women-u23-vs-usa-women-u20/",
+                    "time": "2026-06-08T11:00:00+00:00",
+                },
+                {
+                    "home": "Japan U21",
+                    "away": "Ukraine U21",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "finished",
+                    "competition": "International Friendly",
+                    "url": "/football/match/japan-u21-vs-ukraine-u21/",
+                    "time": "2026-06-08T13:00:00+00:00",
+                },
+                {
+                    "home": "Guangdong Chenxingjuli",
+                    "away": "Taizhou Morning Tea Dark Horse",
+                    "home_score": None,
+                    "away_score": None,
+                    "status": "upcoming",
+                    "competition": "CFA Member Champions League",
+                    "url": "/football/match/taizhou-vs-guangdong/",
+                    "time": "2026-06-08T10:00:00+00:00",
+                },
+                {
+                    "home": "Azerbaijan U20",
+                    "away": "Pakistan U20",
+                    "home_score": None,
+                    "away_score": None,
+                    "status": "upcoming",
+                    "competition": "International Friendly",
+                    "url": "/football/match/azerbaijan-u20-vs-pakistan-u20/",
+                    "time": "2026-06-08T11:00:00+00:00",
+                },
+                {
+                    "home": "Uganda",
+                    "away": "Madagascar",
+                    "home_score": None,
+                    "away_score": None,
+                    "status": "upcoming",
+                    "competition": "International Friendly",
+                    "url": "/football/match/uganda-vs-madagascar/",
+                    "time": "2026-06-08T12:00:00+00:00",
+                },
+            ]
+        }
+
+
 def test_live_matches_only_returns_in_play_matches():
     matches = FakeSportScoreProvider().live_matches()
 
@@ -234,9 +306,20 @@ def test_sportscore_retries_before_falling_back(monkeypatch, tmp_path):
 def test_football_update_uses_recent_result_and_upcoming_fixture():
     update = DigestSportScoreProvider().football_update()
 
-    assert "Football is not live for your alert right now" in update
+    assert "No live football match is currently returned by the football feed" in update
     assert "Latest result: Finished Home 2-1 Finished Away" in update
     assert "Next fixture: Future Home vs Future Away" in update
+
+
+def test_football_update_prioritizes_friendlies_and_warmups():
+    update = FriendlyDigestSportScoreProvider().football_update()
+
+    assert "Recent friendly/warmup result: Japan U21 3-0 Ukraine U21 in International Friendly" in update
+    assert (
+        "Upcoming friendlies/warmups: Azerbaijan U20 vs Pakistan U20 in International Friendly; "
+        "Uganda vs Madagascar in International Friendly"
+    ) in update
+    assert "Next fixture: Guangdong Chenxingjuli vs Taizhou Morning Tea Dark Horse" not in update
 
 
 def test_football_update_reuses_matches_loaded_by_live_matches():

@@ -158,7 +158,7 @@ def test_once_sends_health_message_when_no_notifications(monkeypatch, tmp_path, 
             return []
 
         def football_update(self):
-            return "Football is not live for your alert right now. Latest result: A 1-0 B. Next fixture: C vs D."
+            return "No live football match is currently returned by the football feed. Latest result: A 1-0 B. Next fixture: C vs D."
 
     monkeypatch.setattr(cli, "build_provider", lambda _settings: EmptyProvider())
 
