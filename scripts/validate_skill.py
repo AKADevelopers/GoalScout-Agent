@@ -49,7 +49,7 @@ def main(argv: list[str] | None = None) -> int:
         fail("description is too long")
     if not body:
         fail("SKILL.md body is empty")
-    for phrase in ["goalscout-agent onboard", "goalscout-agent doctor", "goalscout-agent once", "where-to-watch"]:
+    for phrase in ["goalscout-agent onboard", "goalscout-agent doctor", "goalscout-agent briefing", "goalscout-agent once", "where-to-watch"]:
         if phrase not in text:
             fail(f"missing expected command guidance: {phrase}")
 

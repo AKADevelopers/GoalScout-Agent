@@ -61,3 +61,27 @@ def test_repair_preferences_falls_back_to_console_when_delivery_is_incomplete():
 
     assert repaired.delivery == "console"
     assert any("console" in change for change in changes)
+
+
+def test_repair_preferences_removes_optional_none_sentinels():
+    preferences = Preferences(
+        favorite_country="Argentina",
+        favorite_teams=["Argentina"],
+        favorite_players=[],
+        competitions=[],
+        alert_types=["goal"],
+        timezone="Asia/Karachi",
+        watch_country="None",
+        watch_platforms=["n/a", "FIFA+"],
+        webhook_url="null",
+        channel="none",
+        target="N/A",
+    )
+
+    repaired, _changes = repair_preferences(preferences)
+
+    assert repaired.watch_country is None
+    assert repaired.watch_platforms == ["FIFA+"]
+    assert repaired.webhook_url is None
+    assert repaired.channel is None
+    assert repaired.target is None

@@ -171,6 +171,100 @@ def test_once_sends_health_message_when_no_notifications(monkeypatch, tmp_path, 
     assert "Sent 0 notification(s)." in output
 
 
+def test_briefing_prints_preferences_and_provider_matches(monkeypatch, tmp_path, capsys):
+    save_preferences(
+        tmp_path / "preferences.json",
+        Preferences(
+            favorite_country="France",
+            favorite_teams=["Manchester United"],
+            favorite_players=["Mbappe"],
+            competitions=["International Friendly"],
+            alert_types=["goal", "kickoff"],
+            timezone="Asia/Karachi",
+        ),
+    )
+    monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
+
+    class BriefingProvider:
+        def all_matches(self):
+            from football_live_agent.models import Match
+
+            return [
+                Match(
+                    "france-u23",
+                    "France Women U23",
+                    "USA Women U20",
+                    "International Friendly",
+                    "finished",
+                    None,
+                    1,
+                    2,
+                    "2026-06-08T11:00:00+00:00",
+                ),
+                Match(
+                    "uganda",
+                    "Uganda",
+                    "Madagascar",
+                    "International Friendly",
+                    "upcoming",
+                    None,
+                    None,
+                    None,
+                    "2026-06-08T12:00:00+00:00",
+                ),
+            ]
+
+        def live_matches(self):
+            return []
+
+        def events_for_fixture(self, fixture_id):
+            return []
+
+    monkeypatch.setattr(cli, "build_provider", lambda _settings: BriefingProvider())
+
+    assert main(["briefing"]) == 0
+
+    output = capsys.readouterr().out
+    assert "GoalScout football briefing" in output
+    assert "Favorite country: France" in output
+    assert "Favorite players: Mbappe" in output
+    assert "Matches connected to your setup" in output
+    assert "Interesting football" in output
+    assert "Agent note" in output
+
+
+def test_briefing_reports_provider_error_without_traceback(monkeypatch, tmp_path):
+    save_preferences(
+        tmp_path / "preferences.json",
+        Preferences(
+            favorite_country="France",
+            favorite_teams=[],
+            favorite_players=[],
+            competitions=[],
+            alert_types=["goal"],
+            timezone="Asia/Karachi",
+        ),
+    )
+    monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
+
+    class FailingProvider:
+        def all_matches(self):
+            raise ProviderError("SportScore network error: timed out")
+
+        def live_matches(self):
+            return []
+
+        def events_for_fixture(self, fixture_id):
+            return []
+
+    monkeypatch.setattr(cli, "build_provider", lambda _settings: FailingProvider())
+
+    with pytest.raises(SystemExit) as exc:
+        main(["briefing"])
+
+    assert str(exc.value) == "Provider error: SportScore network error: timed out"
+
+
 def test_health_check_sends_status_message(monkeypatch, tmp_path, capsys):
     save_preferences(
         tmp_path / "preferences.json",

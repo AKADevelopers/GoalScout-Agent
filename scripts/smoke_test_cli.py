@@ -18,7 +18,7 @@ def run(args: list[str], *, env: dict[str, str] | None = None, expect_code: int 
 
 def main() -> int:
     help_output = run([sys.executable, "-m", "football_live_agent.cli", "--help"])
-    for command in ["onboard", "doctor", "repair", "where-to-watch", "once", "watch"]:
+    for command in ["onboard", "doctor", "repair", "briefing", "where-to-watch", "once", "watch"]:
         if command not in help_output:
             raise SystemExit(f"CLI help missing command: {command}")
 

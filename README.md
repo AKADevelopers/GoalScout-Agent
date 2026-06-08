@@ -11,6 +11,7 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 ## Features
 
 - Favorite country, teams, players, competitions, and alert types.
+- Personalized football briefing from saved onboarding preferences.
 - Live goal and key-event notifications.
 - Preference doctor/repair flow for broken or older local setups.
 - Pre-match kickoff reminders and adaptive polling around active/favorite matches.
@@ -94,6 +95,7 @@ Useful commands for any agent CLI:
 ```powershell
 goalscout-agent doctor
 goalscout-agent repair
+goalscout-agent briefing
 goalscout-agent once
 goalscout-agent where-to-watch
 goalscout-agent start-background
@@ -162,6 +164,7 @@ goalscout-agent onboard
 goalscout-agent doctor
 goalscout-agent repair
 goalscout-agent preferences
+goalscout-agent briefing
 goalscout-agent memory
 goalscout-agent health-check
 goalscout-agent test-notification

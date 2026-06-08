@@ -92,6 +92,7 @@ Recommended agent CLI flow:
 ```bash
 goalscout-agent doctor
 goalscout-agent repair
+goalscout-agent briefing
 goalscout-agent once
 goalscout-agent where-to-watch
 ```

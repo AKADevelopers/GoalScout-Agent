@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Sequence
 
+from football_live_agent.briefing import format_briefing
 from football_live_agent.config import Settings, load_settings
 from football_live_agent.memory import FootballMemory
 from football_live_agent.models import Event, Match, Preferences
@@ -96,6 +97,21 @@ def provider_update(provider: FootballProvider) -> str | None:
     return str(update())
 
 
+def provider_matches(provider: FootballProvider) -> list[Match]:
+    all_matches = getattr(provider, "all_matches", None)
+    if callable(all_matches):
+        return list(all_matches())
+    return list(provider.live_matches())
+
+
+def provider_display_name(settings: Settings) -> str:
+    if settings.provider == "sportscore":
+        return "SportScore"
+    if settings.provider == "api-football":
+        return "API-Football"
+    return settings.provider
+
+
 def build_watch_provider(settings: Settings, preferences: Preferences, provider_name: str | None = None):
     provider = normalize_provider(provider_name or settings.watch_provider or preferences.watch_provider)
     if provider == "guide":
@@ -153,6 +169,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     subcommands = parser.add_subparsers(dest="command", required=True)
     subcommands.add_parser("onboard")
     subcommands.add_parser("preferences")
+    subcommands.add_parser("briefing")
     subcommands.add_parser("once")
     subcommands.add_parser("watch")
     subcommands.add_parser("memory")
@@ -226,6 +243,15 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "memory":
         print(memory.summary())
+        return 0
+
+    if args.command == "briefing":
+        provider = build_provider(settings)
+        try:
+            matches = provider_matches(provider)
+        except ProviderError as exc:
+            raise SystemExit(f"Provider error: {exc}") from exc
+        print(format_briefing(preferences, matches, provider_name=provider_display_name(settings)))
         return 0
 
     if args.command == "health-check":

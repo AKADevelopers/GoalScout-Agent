@@ -20,6 +20,7 @@ SUPPORTED_ALERT_TYPES = {
     "var_penalty_confirmed",
     "all",
 }
+EMPTY_SENTINELS = {"none", "null", "n/a", "na"}
 
 ALERT_ALIASES = {
     "missed penalty": "missed_penalty",
@@ -158,13 +159,15 @@ def _normalize(value: str | None) -> str:
 
 def _clean_text(value: str | None) -> str | None:
     text = (value or "").strip()
+    if text.casefold() in EMPTY_SENTINELS:
+        return None
     return text or None
 
 
 def _clean_sequence(values: list[str]) -> list[str]:
     cleaned: list[str] = []
     for value in values:
-        text = (value or "").strip()
+        text = _clean_text(value)
         if text and text not in cleaned:
             cleaned.append(text)
     return cleaned

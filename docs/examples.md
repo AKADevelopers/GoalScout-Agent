@@ -28,6 +28,7 @@ npm install -g goalscout-agent
 
 ```bash
 goalscout-agent onboard
+goalscout-agent briefing
 goalscout-agent health-check
 goalscout-agent once
 ```
