@@ -1,11 +1,11 @@
 ---
 name: goalscout-agent
-description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring OpenClaw/Hermes football notifications.
+description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring Codex, Claude Code, OpenCode, OpenClaw, or Hermes football notifications.
 ---
 
 # GoalScout Agent
 
-Use this skill to help users configure and operate GoalScout Agent, a football live notification agent.
+Use this skill to help users configure and operate GoalScout Agent, a football live notification agent for terminal users and agent CLIs.
 
 ## Workflow
 
@@ -19,6 +19,22 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 8. For API-Football instead of SportScore, set `FOOTBALL_AGENT_PROVIDER=api-football` and provide `API_FOOTBALL_KEY`.
 9. For always-on alerts after setup, run `goalscout-agent start-background`. The watcher now uses faster polling around active/favorite matches and can send kickoff reminders for followed upcoming fixtures.
 10. For legal TV/streaming guidance, run `goalscout-agent where-to-watch`, `goalscout-agent where-to-watch --team "Team Name" --date YYYY-MM-DD`, or `goalscout-agent where-to-watch <provider-fixture-id> --provider sportmonks`.
+
+## Install And Agent CLI Use
+
+Install the CLI with npm when a Node-based workflow is preferred:
+
+```bash
+npm install -g github:AKADevelopers/GoalScout-Agent
+```
+
+Install with pipx when a Python CLI workflow is preferred:
+
+```bash
+pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git
+```
+
+Codex, Claude Code, OpenCode, OpenClaw, Hermes, Cursor, Copilot-style agents, and Raspberry Pi/Linux hosts can all use the same `goalscout-agent` commands. If the agent client supports skills, point it at `skills/goalscout-agent/SKILL.md`; otherwise, ask it to run the CLI commands directly.
 
 ## User Preferences
 

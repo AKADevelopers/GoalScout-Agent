@@ -19,7 +19,7 @@ python -m pytest -q
 - skill frontmatter and body
 - required assets
 - required professional docs
-- one-line CLI install documentation
+- npm and Python CLI install documentation
 - basic CLI smoke behavior
 
 CI runs repository validation before the test suite.

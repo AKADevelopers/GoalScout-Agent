@@ -1,0 +1,59 @@
+{
+  "name": "goalscout-agent",
+  "version": "0.1.0",
+  "description": "Live football goal alerts, match memory, legal where-to-watch guidance, and channel delivery for agent CLIs.",
+  "license": "MIT",
+  "author": {
+    "name": "AKADevelopers",
+    "url": "https://github.com/AKADevelopers"
+  },
+  "homepage": "https://github.com/AKADevelopers/GoalScout-Agent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AKADevelopers/GoalScout-Agent.git"
+  },
+  "keywords": [
+    "football",
+    "soccer",
+    "live-scores",
+    "goals",
+    "alerts",
+    "agent-cli",
+    "codex",
+    "claude-code",
+    "opencode",
+    "openclaw",
+    "hermes"
+  ],
+  "bin": {
+    "goalscout-agent": "./bin/goalscout-agent.js",
+    "football-live-agent": "./bin/goalscout-agent.js"
+  },
+  "files": [
+    "assets/*.svg",
+    "bin/goalscout-agent.js",
+    "docs/architecture.md",
+    "docs/examples.md",
+    "docs/installation.md",
+    "docs/security.md",
+    "docs/troubleshooting.md",
+    "docs/validation.md",
+    "football_live_agent/**/*.py",
+    "skills/goalscout-agent/SKILL.md",
+    "skills/goalscout-agent/agents/openai.yaml",
+    "skills/goalscout-agent/assets/*.svg",
+    "skills/goalscout-agent/references/*.md",
+    ".codex-plugin/plugin.json",
+    "LICENSE",
+    "README.md",
+    "pyproject.toml"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "doctor": "node ./bin/goalscout-agent.js doctor",
+    "goalscout": "node ./bin/goalscout-agent.js",
+    "test": "python -m pytest -q"
+  }
+}

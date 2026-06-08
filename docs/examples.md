@@ -3,7 +3,25 @@
 ## One-line install
 
 ```bash
+npm install -g github:AKADevelopers/GoalScout-Agent
+```
+
+Python CLI alternative:
+
+```bash
+pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git
+```
+
+Pip alternative:
+
+```bash
 python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"
+```
+
+After an npm registry release:
+
+```bash
+npm install -g goalscout-agent
 ```
 
 ## Console setup

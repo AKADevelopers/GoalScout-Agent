@@ -20,7 +20,9 @@ REQUIRED_DOCS = [
     "SUPPORT.md",
 ]
 
-ONE_LINE_INSTALL = 'python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"'
+NPM_GITHUB_INSTALL = "npm install -g github:AKADevelopers/GoalScout-Agent"
+PIPX_GITHUB_INSTALL = "pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git"
+PIP_GITHUB_INSTALL = 'python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"'
 
 
 def fail(message: str) -> None:
@@ -39,9 +41,20 @@ def check_files() -> None:
         path = ROOT / rel
         if not path.is_file():
             fail(f"missing required documentation file: {rel}")
-    if ONE_LINE_INSTALL not in (ROOT / "README.md").read_text(encoding="utf-8") and ONE_LINE_INSTALL not in (ROOT / "docs" / "installation.md").read_text(encoding="utf-8"):
-        fail("missing one-line GitHub CLI install command")
-    for rel in ["assets/app-icon.svg", "assets/composer-icon.svg", "skills/goalscout-agent/SKILL.md", ".codex-plugin/plugin.json"]:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    installation = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
+    combined_docs = f"{readme}\n{installation}"
+    for command in [NPM_GITHUB_INSTALL, PIPX_GITHUB_INSTALL, PIP_GITHUB_INSTALL]:
+        if command not in combined_docs:
+            fail(f"missing documented install command: {command}")
+    for rel in [
+        "assets/app-icon.svg",
+        "assets/composer-icon.svg",
+        "bin/goalscout-agent.js",
+        "package.json",
+        "skills/goalscout-agent/SKILL.md",
+        ".codex-plugin/plugin.json",
+    ]:
         if not (ROOT / rel).is_file():
             fail(f"missing required package file: {rel}")
 
@@ -57,6 +70,17 @@ def check_pyproject() -> None:
     urls = project.get("urls", {})
     if "AKADevelopers/GoalScout-Agent" not in urls.get("Repository", ""):
         fail("pyproject repository URL is not set correctly")
+
+
+def check_package_json() -> None:
+    data = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+    if data.get("name") != "goalscout-agent":
+        fail("package.json name must be goalscout-agent")
+    bin_scripts = data.get("bin", {})
+    if bin_scripts.get("goalscout-agent") != "./bin/goalscout-agent.js":
+        fail("package.json must expose goalscout-agent bin")
+    if bin_scripts.get("football-live-agent") != "./bin/goalscout-agent.js":
+        fail("package.json must expose football-live-agent bin")
 
 
 def check_manifest() -> None:
@@ -75,6 +99,7 @@ def check_manifest() -> None:
 def main() -> int:
     check_files()
     check_pyproject()
+    check_package_json()
     check_manifest()
     run([sys.executable, "scripts/validate_plugin.py"])
     run([sys.executable, "scripts/validate_skill.py", "skills/goalscout-agent"])
