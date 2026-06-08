@@ -59,7 +59,8 @@ npm install -g goalscout-agent
 For local development:
 
 ```powershell
-cd "E:\Football agent or skill"
+git clone https://github.com/AKADevelopers/GoalScout-Agent.git
+cd GoalScout-Agent
 python -m pip install -e ".[dev]"
 python scripts/validate_repo.py
 python -m pytest -q

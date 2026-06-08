@@ -12,33 +12,33 @@
 
 ## File Map
 
-- Create: `E:\Football agent or skill\pyproject.toml` for package metadata and pytest settings.
-- Create: `E:\Football agent or skill\football_live_agent\__init__.py` for package version.
-- Create: `E:\Football agent or skill\football_live_agent\models.py` for normalized preference, match, event, and notification data classes.
-- Create: `E:\Football agent or skill\football_live_agent\config.py` for environment and data-path loading.
-- Create: `E:\Football agent or skill\football_live_agent\state.py` for JSON state persistence and event deduplication.
-- Create: `E:\Football agent or skill\football_live_agent\onboarding.py` for first-run questions and preference saving.
-- Create: `E:\Football agent or skill\football_live_agent\providers\base.py` for provider interface.
-- Create: `E:\Football agent or skill\football_live_agent\providers\api_football.py` for API-Football integration.
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\base.py` for notifier interface.
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\console.py` for local notification output.
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\webhook.py` for webhook notifications.
-- Create: `E:\Football agent or skill\football_live_agent\watcher.py` for one-shot and continuous watch loops.
-- Create: `E:\Football agent or skill\football_live_agent\cli.py` for `onboard`, `once`, `watch`, `preferences`, and `test-notification`.
-- Create: `E:\Football agent or skill\tests\test_models.py` for preference matching and formatting tests.
-- Create: `E:\Football agent or skill\tests\test_state.py` for deduplication tests.
-- Create: `E:\Football agent or skill\tests\test_watcher.py` for mocked provider and notifier flow tests.
-- Create: `E:\Football agent or skill\tests\test_api_football.py` for API-Football normalization tests.
-- Create: `E:\Football agent or skill\skills\football-live-agent\SKILL.md` for portable agent instructions.
-- Create: `E:\Football agent or skill\skills\football-live-agent\agents\openai.yaml` for skill UI metadata.
-- Create: `E:\Football agent or skill\skills\football-live-agent\references\provider-notes.md` for provider setup and latency notes.
+- Create: `<repo-root>\pyproject.toml` for package metadata and pytest settings.
+- Create: `<repo-root>\football_live_agent\__init__.py` for package version.
+- Create: `<repo-root>\football_live_agent\models.py` for normalized preference, match, event, and notification data classes.
+- Create: `<repo-root>\football_live_agent\config.py` for environment and data-path loading.
+- Create: `<repo-root>\football_live_agent\state.py` for JSON state persistence and event deduplication.
+- Create: `<repo-root>\football_live_agent\onboarding.py` for first-run questions and preference saving.
+- Create: `<repo-root>\football_live_agent\providers\base.py` for provider interface.
+- Create: `<repo-root>\football_live_agent\providers\api_football.py` for API-Football integration.
+- Create: `<repo-root>\football_live_agent\notifiers\base.py` for notifier interface.
+- Create: `<repo-root>\football_live_agent\notifiers\console.py` for local notification output.
+- Create: `<repo-root>\football_live_agent\notifiers\webhook.py` for webhook notifications.
+- Create: `<repo-root>\football_live_agent\watcher.py` for one-shot and continuous watch loops.
+- Create: `<repo-root>\football_live_agent\cli.py` for `onboard`, `once`, `watch`, `preferences`, and `test-notification`.
+- Create: `<repo-root>\tests\test_models.py` for preference matching and formatting tests.
+- Create: `<repo-root>\tests\test_state.py` for deduplication tests.
+- Create: `<repo-root>\tests\test_watcher.py` for mocked provider and notifier flow tests.
+- Create: `<repo-root>\tests\test_api_football.py` for API-Football normalization tests.
+- Create: `<repo-root>\skills\football-live-agent\SKILL.md` for portable agent instructions.
+- Create: `<repo-root>\skills\football-live-agent\agents\openai.yaml` for skill UI metadata.
+- Create: `<repo-root>\skills\football-live-agent\references\provider-notes.md` for provider setup and latency notes.
 
 ## Task 1: Package Scaffold
 
 **Files:**
-- Create: `E:\Football agent or skill\pyproject.toml`
-- Create: `E:\Football agent or skill\football_live_agent\__init__.py`
-- Create folders: `E:\Football agent or skill\football_live_agent\providers`, `E:\Football agent or skill\football_live_agent\notifiers`, `E:\Football agent or skill\tests`
+- Create: `<repo-root>\pyproject.toml`
+- Create: `<repo-root>\football_live_agent\__init__.py`
+- Create folders: `<repo-root>\football_live_agent\providers`, `<repo-root>\football_live_agent\notifiers`, `<repo-root>\tests`
 
 - [ ] **Step 1: Create package metadata**
 
@@ -80,8 +80,8 @@ Expected: `0.1.0`
 ## Task 2: Models And Preferences
 
 **Files:**
-- Create: `E:\Football agent or skill\football_live_agent\models.py`
-- Create: `E:\Football agent or skill\tests\test_models.py`
+- Create: `<repo-root>\football_live_agent\models.py`
+- Create: `<repo-root>\tests\test_models.py`
 
 - [ ] **Step 1: Write model tests**
 
@@ -267,10 +267,10 @@ Expected: both tests pass.
 ## Task 3: Config, State, And Onboarding
 
 **Files:**
-- Create: `E:\Football agent or skill\football_live_agent\config.py`
-- Create: `E:\Football agent or skill\football_live_agent\state.py`
-- Create: `E:\Football agent or skill\football_live_agent\onboarding.py`
-- Create: `E:\Football agent or skill\tests\test_state.py`
+- Create: `<repo-root>\football_live_agent\config.py`
+- Create: `<repo-root>\football_live_agent\state.py`
+- Create: `<repo-root>\football_live_agent\onboarding.py`
+- Create: `<repo-root>\tests\test_state.py`
 
 - [ ] **Step 1: Write state tests**
 
@@ -436,10 +436,10 @@ Expected: test passes.
 ## Task 4: Provider And API-Football Normalizer
 
 **Files:**
-- Create: `E:\Football agent or skill\football_live_agent\providers\__init__.py`
-- Create: `E:\Football agent or skill\football_live_agent\providers\base.py`
-- Create: `E:\Football agent or skill\football_live_agent\providers\api_football.py`
-- Create: `E:\Football agent or skill\tests\test_api_football.py`
+- Create: `<repo-root>\football_live_agent\providers\__init__.py`
+- Create: `<repo-root>\football_live_agent\providers\base.py`
+- Create: `<repo-root>\football_live_agent\providers\api_football.py`
+- Create: `<repo-root>\tests\test_api_football.py`
 
 - [ ] **Step 1: Write API-Football normalization tests**
 
@@ -605,12 +605,12 @@ Expected: tests pass.
 ## Task 5: Notifiers And Watcher
 
 **Files:**
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\__init__.py`
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\base.py`
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\console.py`
-- Create: `E:\Football agent or skill\football_live_agent\notifiers\webhook.py`
-- Create: `E:\Football agent or skill\football_live_agent\watcher.py`
-- Create: `E:\Football agent or skill\tests\test_watcher.py`
+- Create: `<repo-root>\football_live_agent\notifiers\__init__.py`
+- Create: `<repo-root>\football_live_agent\notifiers\base.py`
+- Create: `<repo-root>\football_live_agent\notifiers\console.py`
+- Create: `<repo-root>\football_live_agent\notifiers\webhook.py`
+- Create: `<repo-root>\football_live_agent\watcher.py`
+- Create: `<repo-root>\tests\test_watcher.py`
 
 - [ ] **Step 1: Write watcher tests**
 
@@ -791,7 +791,7 @@ Expected: test passes.
 ## Task 6: CLI
 
 **Files:**
-- Create: `E:\Football agent or skill\football_live_agent\cli.py`
+- Create: `<repo-root>\football_live_agent\cli.py`
 
 - [ ] **Step 1: Implement CLI**
 
@@ -892,13 +892,13 @@ Expected: help text lists `onboard`, `preferences`, `once`, `watch`, and `test-n
 ## Task 7: Portable Skill Package
 
 **Files:**
-- Create: `E:\Football agent or skill\skills\football-live-agent\SKILL.md`
-- Create: `E:\Football agent or skill\skills\football-live-agent\agents\openai.yaml`
-- Create: `E:\Football agent or skill\skills\football-live-agent\references\provider-notes.md`
+- Create: `<repo-root>\skills\football-live-agent\SKILL.md`
+- Create: `<repo-root>\skills\football-live-agent\agents\openai.yaml`
+- Create: `<repo-root>\skills\football-live-agent\references\provider-notes.md`
 
 - [ ] **Step 1: Initialize skill folder**
 
-Run: `python "C:\Users\Abid khan afridi\.codex\skills\.system\skill-creator\scripts\init_skill.py" football-live-agent --path "E:\Football agent or skill\skills" --resources references --interface display_name="Football Live Agent" --interface short_description="Live football alerts and match context" --interface default_prompt="Use $football-live-agent to set up my football favorites and live match alerts."`
+Run: `python "<codex-skill-root>\skill-creator\scripts\init_skill.py" football-live-agent --path "<repo-root>\skills" --resources references --interface display_name="Football Live Agent" --interface short_description="Live football alerts and match context" --interface default_prompt="Use $football-live-agent to set up my football favorites and live match alerts."`
 
 Expected: skill folder is created with `SKILL.md`, `agents/openai.yaml`, and `references`.
 
@@ -983,7 +983,7 @@ OpenClaw can use the skill folder directly as a local skill. Hermes can use the 
 
 - [ ] **Step 4: Validate skill**
 
-Run: `python "C:\Users\Abid khan afridi\.codex\skills\.system\skill-creator\scripts\quick_validate.py" "E:\Football agent or skill\skills\football-live-agent"`
+Run: `python "<codex-skill-root>\skill-creator\scripts\quick_validate.py" "<repo-root>\skills\football-live-agent"`
 
 Expected: validation passes.
 
@@ -1006,6 +1006,6 @@ Expected: command help exits with status 0.
 
 - [ ] **Step 3: Run skill validation**
 
-Run: `python "C:\Users\Abid khan afridi\.codex\skills\.system\skill-creator\scripts\quick_validate.py" "E:\Football agent or skill\skills\football-live-agent"`
+Run: `python "<codex-skill-root>\skill-creator\scripts\quick_validate.py" "<repo-root>\skills\football-live-agent"`
 
 Expected: validation passes.
