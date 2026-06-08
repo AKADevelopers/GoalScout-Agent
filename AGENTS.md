@@ -5,6 +5,7 @@ This repository contains a portable football notification agent and a packaged s
 ## Important Commands
 
 ```powershell
+python scripts/validate_repo.py
 python -m pytest -q
 python -m football_live_agent.cli doctor
 python -m football_live_agent.cli repair

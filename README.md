@@ -4,9 +4,9 @@
 
 # GoalScout Agent
 
-Live football goal alerts, match memory, and channel delivery for OpenClaw, Hermes, and portable agent platforms.
+Professional football intelligence and live-alert agent for Codex, Hermes, OpenClaw, and portable agent platforms.
 
-GoalScout Agent watches live football data, remembers your favorite teams and players, and sends goal or match-event notifications to the channel you configure. The default provider is SportScore, which does not require an API key.
+GoalScout Agent watches live football data, remembers your favorite teams and players, sends goal or match-event notifications to the channel you configure, and provides legal where-to-watch guidance. The default provider is SportScore, which does not require an API key.
 
 ## Features
 
@@ -25,11 +25,26 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 
 ## Quick Start
 
+One-line install from GitHub:
+
+```bash
+python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"
+```
+
+Then run:
+
+```powershell
+goalscout-agent onboard
+goalscout-agent once
+```
+
+For local development:
+
 ```powershell
 cd "E:\Football agent or skill"
 python -m pip install -e ".[dev]"
-goalscout-agent onboard
-goalscout-agent once
+python scripts/validate_repo.py
+python -m pytest -q
 ```
 
 Start continuous watching:
@@ -133,14 +148,30 @@ Runtime data is stored locally in `.football-live-agent/`. Do not commit that fo
 
 SportScore availability and latency depend on the public SportScore endpoint. The watcher polls and sends alerts when the provider returns live incidents.
 
+## Documentation
+
+- `docs/installation.md` — one-line CLI install and agent-tool setup.
+- `docs/architecture.md` — runtime and agent integration design.
+- `docs/examples.md` — copy-pasteable usage examples.
+- `docs/security.md` — secret handling and safety boundaries.
+- `docs/troubleshooting.md` — common fixes.
+- `docs/validation.md` — verification commands.
+
 ## Development
 
 Run the full verification set:
 
 ```powershell
+python scripts/validate_repo.py
 python -m pytest -q
-python "C:\Users\Abid khan afridi\.codex\skills\.system\skill-creator\scripts\quick_validate.py" "E:\Football agent or skill\skills\goalscout-agent"
-python "C:\Users\Abid khan afridi\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py" "E:\Football agent or skill"
+```
+
+Individual validators:
+
+```powershell
+python scripts/validate_plugin.py
+python scripts/validate_skill.py skills/goalscout-agent
+python scripts/smoke_test_cli.py
 ```
 
 ## License
