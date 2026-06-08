@@ -18,6 +18,7 @@ class Match:
     elapsed: int | None
     home_goals: int | None
     away_goals: int | None
+    kickoff_at: str | None = None
 
     @property
     def scoreline(self) -> str:

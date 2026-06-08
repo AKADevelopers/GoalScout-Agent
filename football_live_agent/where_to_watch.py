@@ -115,6 +115,9 @@ def format_watch_summary(
     *,
     provider_name: str,
     fixture_id: str | None,
+    team_name: str | None = None,
+    competition_name: str | None = None,
+    match_date: str | None = None,
 ) -> str:
     watch_country = getattr(preferences, "watch_country", "") or "not set"
     user_platforms = [platform for platform in getattr(preferences, "watch_platforms", []) if platform.strip()]
@@ -122,14 +125,23 @@ def format_watch_summary(
     if not fixture_id and not options:
         platforms = ", ".join(user_platforms) if user_platforms else "none saved yet"
         provider_help = "; ".join(f"{name}: {description}" for name, description in known_watch_providers().items())
-        return (
-            "Where to watch setup\n"
-            f"Country: {watch_country}\n"
-            f"Your platforms: {platforms}\n"
+        lines = [
+            "Where to watch setup",
+            f"Country: {watch_country}",
+            f"Your platforms: {platforms}",
+        ]
+        if team_name:
+            lines.append(f"Team: {team_name}")
+        if competition_name:
+            lines.append(f"Competition: {competition_name}")
+        if match_date:
+            lines.append(f"Date: {match_date}")
+        lines.append(
             "Use `goalscout-agent where-to-watch <provider-fixture-id> --provider sportmonks` "
-            "or `--provider thesportsdb` when you have a fixture ID from that provider.\n"
-            f"Provider categories: {provider_help}"
+            "or `--provider thesportsdb` when you have a fixture ID from that provider."
         )
+        lines.append(f"Provider categories: {provider_help}")
+        return "\n".join(lines)
 
     if not options:
         return (

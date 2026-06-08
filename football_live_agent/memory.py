@@ -87,6 +87,7 @@ def _match_data(match: Match) -> dict[str, Any]:
         "elapsed": match.elapsed,
         "home_goals": match.home_goals,
         "away_goals": match.away_goals,
+        "kickoff_at": match.kickoff_at,
         "scoreline": match.scoreline,
     }
 

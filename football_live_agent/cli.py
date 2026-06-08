@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 from typing import Sequence
 
 from football_live_agent.config import Settings, load_settings
@@ -11,13 +12,14 @@ from football_live_agent.notifiers.base import Notifier
 from football_live_agent.notifiers.command import CommandNotifier, build_platform_command, split_command_template
 from football_live_agent.notifiers.console import ConsoleNotifier
 from football_live_agent.notifiers.webhook import WebhookNotifier
-from football_live_agent.onboarding import load_preferences, run_onboarding
+from football_live_agent.onboarding import load_preferences, run_onboarding, save_preferences
+from football_live_agent.preferences import repair_preferences, validate_preferences
 from football_live_agent.providers.api_football import ApiFootballProvider, ProviderError
 from football_live_agent.providers.base import FootballProvider
 from football_live_agent.providers.sportscore import SportScoreProvider
 from football_live_agent.service import pid_status, start_background, stop_background
 from football_live_agent.state import JsonState
-from football_live_agent.watcher import run_once, watch_forever
+from football_live_agent.watcher import calculate_poll_delay, run_once, watch_forever
 from football_live_agent.where_to_watch import (
     GuideWatchProvider,
     SetupOnlyWatchProvider,
@@ -120,6 +122,32 @@ def build_watch_provider(settings: Settings, preferences: Preferences, provider_
     raise SystemExit(f"Unsupported where-to-watch provider: {provider}")
 
 
+def _load_preferences_with_repair(path: Path, *, save_repaired: bool) -> tuple[Preferences, list[str]]:
+    preferences = load_preferences(path)
+    repaired, changes = repair_preferences(preferences)
+    if changes and save_repaired:
+        save_preferences(path, repaired)
+    return repaired, changes
+
+
+def _print_preference_diagnostics(issues: list[str]) -> None:
+    if not issues:
+        print("No preference issues found.")
+        return
+    print("Preference issues:")
+    for issue in issues:
+        print(f"- {issue}")
+
+
+def _print_repair_diagnostics(changes: list[str]) -> None:
+    if not changes:
+        print("No changes were needed.")
+        return
+    print("Repaired preferences:")
+    for change in changes:
+        print(f"- {change}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="GoalScout Agent live football notification watcher")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -133,9 +161,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     subcommands.add_parser("status")
     subcommands.add_parser("stop")
     subcommands.add_parser("test-notification")
+    doctor_parser = subcommands.add_parser("doctor")
+    doctor_parser.add_argument("--fix", action="store_true")
+    subcommands.add_parser("repair")
     watch_parser = subcommands.add_parser("where-to-watch")
     watch_parser.add_argument("fixture_id", nargs="?")
     watch_parser.add_argument("--provider", dest="watch_provider")
+    watch_parser.add_argument("--team")
+    watch_parser.add_argument("--competition")
+    watch_parser.add_argument("--date")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     settings = load_settings()
@@ -152,14 +186,39 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     if args.command == "onboard":
-        run_onboarding(pref_path)
+        preferences = run_onboarding(pref_path)
+        repaired, changes = repair_preferences(preferences)
+        if changes:
+            save_preferences(pref_path, repaired)
+            _print_repair_diagnostics(changes)
         print(f"Saved preferences to {pref_path}")
         return 0
 
     if not pref_path.exists():
         raise SystemExit("No preferences found. Run: goalscout-agent onboard")
 
-    preferences = load_preferences(pref_path)
+    if args.command == "doctor":
+        preferences = load_preferences(pref_path)
+        issues = validate_preferences(preferences)
+        _print_preference_diagnostics(issues)
+        if args.fix:
+            repaired, changes = repair_preferences(preferences)
+            if changes:
+                save_preferences(pref_path, repaired)
+                _print_repair_diagnostics(changes)
+        return 0
+
+    if args.command == "repair":
+        preferences = load_preferences(pref_path)
+        repaired, changes = repair_preferences(preferences)
+        save_preferences(pref_path, repaired)
+        _print_repair_diagnostics(changes)
+        return 0
+
+    preferences, changes = _load_preferences_with_repair(pref_path, save_repaired=True)
+    if changes and args.command != "preferences":
+        # Keep migrations quiet during normal use.
+        pass
 
     if args.command == "preferences":
         print(json.dumps(preferences.to_dict(), indent=2, sort_keys=True))
@@ -185,6 +244,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 options,
                 provider_name=provider.provider_name,
                 fixture_id=args.fixture_id,
+                team_name=getattr(args, "team", None),
+                competition_name=getattr(args, "competition", None),
+                match_date=getattr(args, "date", None),
             )
         )
         return 0

@@ -6,6 +6,8 @@ This repository contains a portable football notification agent and a packaged s
 
 ```powershell
 python -m pytest -q
+python -m football_live_agent.cli doctor
+python -m football_live_agent.cli repair
 python -m football_live_agent.cli once
 python -m football_live_agent.cli test-notification
 python -m football_live_agent.cli start-background

@@ -45,6 +45,11 @@ class SportScoreProvider:
         matches = [normalize_match(item) for item in payload.get("matches", [])]
         return [match for match in matches if _is_watchable_status(match.status)]
 
+    def all_matches(self) -> list[Match]:
+        payload = self._last_matches_payload or self._get_matches()
+        self._last_matches_payload = payload
+        return [normalize_match(item) for item in payload.get("matches", [])]
+
     def football_update(self) -> str:
         payload = self._last_matches_payload or self._get_matches()
         self._last_matches_payload = None
@@ -162,6 +167,7 @@ def normalize_match(raw: dict[str, Any]) -> Match:
         elapsed=_as_int(raw.get("live_minute")),
         home_goals=_as_int(raw.get("home_score")),
         away_goals=_as_int(raw.get("away_score")),
+        kickoff_at=_optional_str(raw.get("time") or raw.get("start_time") or raw.get("kickoff_at")),
     )
 
 
@@ -228,6 +234,13 @@ def _as_int(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _optional_str(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    return text or None
 
 
 def _is_watchable_status(status: str) -> bool:

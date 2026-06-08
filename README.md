@@ -12,6 +12,8 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 
 - Favorite country, teams, players, competitions, and alert types.
 - Live goal and key-event notifications.
+- Preference doctor/repair flow for broken or older local setups.
+- Pre-match kickoff reminders and adaptive polling around active/favorite matches.
 - OpenClaw, Hermes, webhook, custom command, and console delivery.
 - Persistent memory for the last match, last alert, and recent football context.
 - Legal where-to-watch guidance with saved user platforms.
@@ -77,6 +79,7 @@ Run the simple guide:
 
 ```powershell
 goalscout-agent where-to-watch
+goalscout-agent where-to-watch --team "Manchester United" --date 2026-06-15
 ```
 
 Use Sportmonks TV Stations with your own key:
@@ -99,6 +102,8 @@ GoalScout Agent only provides official TV/streaming guidance. It does not provid
 
 ```powershell
 goalscout-agent onboard
+goalscout-agent doctor
+goalscout-agent repair
 goalscout-agent preferences
 goalscout-agent memory
 goalscout-agent health-check

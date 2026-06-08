@@ -210,3 +210,52 @@ def test_where_to_watch_command_prints_user_platform_guide(monkeypatch, tmp_path
     assert "Where to watch setup" in output
     assert "United States" in output
     assert "Peacock, Fubo" in output
+
+
+def test_doctor_reports_preference_problems(monkeypatch, tmp_path, capsys):
+    save_preferences(
+        tmp_path / "preferences.json",
+        Preferences(
+            favorite_country="Argentina",
+            favorite_teams=["Argentina"],
+            favorite_players=[],
+            competitions=[],
+            alert_types=["goal"],
+            timezone="Asia/Karachi",
+            delivery="sms",
+            watch_provider="unknown",
+        ),
+    )
+    monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
+
+    assert main(["doctor"]) == 0
+
+    output = capsys.readouterr().out
+    assert "Preference issues" in output
+    assert "delivery" in output
+    assert "watch provider" in output
+
+
+def test_repair_repairs_invalid_preferences(monkeypatch, tmp_path, capsys):
+    save_preferences(
+        tmp_path / "preferences.json",
+        Preferences(
+            favorite_country="Argentina",
+            favorite_teams=["Argentina"],
+            favorite_players=[],
+            competitions=[],
+            alert_types=["Goal", ""],
+            timezone="Asia/Karachi",
+            delivery="Hermes",
+            channel="telegram",
+            target="@football",
+            watch_provider="TheSportsDB",
+        ),
+    )
+    monkeypatch.setenv("FOOTBALL_AGENT_DATA_DIR", str(tmp_path))
+
+    assert main(["repair"]) == 0
+
+    output = capsys.readouterr().out
+    assert "Repaired preferences" in output
+    assert "thesportsdb" in output

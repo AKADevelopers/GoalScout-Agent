@@ -22,7 +22,7 @@ def run_onboarding(path: Path) -> Preferences:
     watch_country = input("Country where you watch matches, optional: ").strip()
     watch_platforms = ask_csv("Watching platforms you have, comma-separated, optional: ")
     watch_provider = (
-        input("Where-to-watch provider: guide, sportmonks, thesportsdb, sportradar, gracenote, or justwatch: ")
+        input("Where-to-watch provider: guide, sportmonks, or thesportsdb: ")
         .strip()
         .casefold()
         or "guide"
