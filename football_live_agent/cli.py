@@ -272,12 +272,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         except ProviderError as exc:
             send_health_check(
                 notifiers,
-                detail="GoalScout Agent is working, but the live football provider is unavailable right now.",
+                detail="Football status: the live football provider is unavailable right now.",
             )
             raise SystemExit(f"Provider error: {exc}") from exc
         if sent == 0:
             update = provider_update(provider)
-            detail = "GoalScout Agent is working. No live matching football alert was found right now."
+            detail = "Football status: no live matching football alert was found right now."
             if update:
                 detail = f"{detail} {update}"
             send_health_check(notifiers, detail=detail)

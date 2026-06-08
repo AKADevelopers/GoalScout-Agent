@@ -131,7 +131,9 @@ def test_once_reports_provider_error_without_traceback(monkeypatch, tmp_path, ca
         main(["once"])
 
     assert str(exc.value) == "Provider error: SportScore network error: timed out"
-    assert "GoalScout Agent is working, but the live football provider is unavailable right now." in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "Football status: the live football provider is unavailable right now." in output
+    assert "GoalScout Agent is working" not in output
 
 
 def test_once_sends_health_message_when_no_notifications(monkeypatch, tmp_path, capsys):
@@ -163,7 +165,8 @@ def test_once_sends_health_message_when_no_notifications(monkeypatch, tmp_path, 
     assert main(["once"]) == 0
 
     output = capsys.readouterr().out
-    assert "GoalScout Agent is working" in output
+    assert "Football status: no live matching football alert was found right now." in output
+    assert "GoalScout Agent is working" not in output
     assert "Latest result: A 1-0 B" in output
     assert "Sent 0 notification(s)." in output
 

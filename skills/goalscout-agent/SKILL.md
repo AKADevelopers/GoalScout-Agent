@@ -14,7 +14,7 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 3. If preferences exist but alerts or delivery are broken, run `goalscout-agent doctor` and then `goalscout-agent repair` to normalize delivery, alert types, where-to-watch provider, and missing command fields.
 4. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, target chat, watch country, watching platforms, and where-to-watch provider.
 5. For free live alerts, use the default SportScore provider and run `goalscout-agent watch`.
-6. For a single check, run `goalscout-agent once`. If no matching football event is live, it sends a health-check message plus a SportScore football update using recent results and upcoming fixtures.
+6. For a single check, run `goalscout-agent once`. If no matching football event is live, it sends a football status update using recent results and upcoming fixtures.
 7. For webhook delivery to Hermes, OpenClaw, Discord, Telegram, or an automation bridge, set `FOOTBALL_AGENT_WEBHOOK_URL`.
 8. For API-Football instead of SportScore, set `FOOTBALL_AGENT_PROVIDER=api-football` and provide `API_FOOTBALL_KEY`.
 9. For always-on alerts after setup, run `goalscout-agent start-background`. The watcher now uses faster polling around active/favorite matches and can send kickoff reminders for followed upcoming fixtures.
