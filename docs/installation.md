@@ -2,22 +2,46 @@
 
 GoalScout Agent is a professional football alert agent with a Python CLI, an npm-compatible command wrapper, and portable agent skill metadata.
 
-## One-line npm CLI install
+## One-line CLI install
 
-Install from GitHub with npm:
+Install from GitHub with curl:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh
+```
+
+PowerShell:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex"
+```
+
+npm:
 
 ```bash
 npm install -g github:AKADevelopers/GoalScout-Agent
 ```
 
-Verify the npm-installed command:
+pnpm:
+
+```bash
+pnpm add -g github:AKADevelopers/GoalScout-Agent
+```
+
+bun:
+
+```bash
+bun add -g github:AKADevelopers/GoalScout-Agent
+```
+
+Verify the installed command:
 
 ```bash
 goalscout-agent --help
 goalscout-agent doctor
 ```
 
-This npm wrapper requires Python 3.11 or newer on the machine. It runs the existing Python CLI from the installed package source.
+The npm-compatible wrapper requires Python 3.11 or newer on the machine. It runs the existing Python CLI from the installed package source.
 
 After a registry release, the shorter npm command will be:
 
@@ -81,7 +105,7 @@ GoalScout ships these professional agent integration files:
 - `skills/goalscout-agent/agents/openai.yaml` for UI metadata.
 - `assets/` and `skills/goalscout-agent/assets/` for icons.
 
-Use the same CLI install above for Codex, Claude Code, OpenCode, OpenClaw, Hermes, Cursor, Copilot-style workflows, or Raspberry Pi/Linux hosts, then point the agent tool at:
+Use the same CLI install above for Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, or Copilot-style workflows, then point the agent tool at:
 
 ```text
 skills/goalscout-agent/SKILL.md

@@ -23,6 +23,8 @@ REQUIRED_DOCS = [
 NPM_GITHUB_INSTALL = "npm install -g github:AKADevelopers/GoalScout-Agent"
 PIPX_GITHUB_INSTALL = "pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git"
 PIP_GITHUB_INSTALL = 'python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"'
+CURL_GITHUB_INSTALL = "curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh"
+POWERSHELL_GITHUB_INSTALL = "irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex"
 
 
 def fail(message: str) -> None:
@@ -44,14 +46,18 @@ def check_files() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     installation = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
     combined_docs = f"{readme}\n{installation}"
-    for command in [NPM_GITHUB_INSTALL, PIPX_GITHUB_INSTALL, PIP_GITHUB_INSTALL]:
+    for command in [CURL_GITHUB_INSTALL, POWERSHELL_GITHUB_INSTALL, NPM_GITHUB_INSTALL, PIPX_GITHUB_INSTALL, PIP_GITHUB_INSTALL]:
         if command not in combined_docs:
             fail(f"missing documented install command: {command}")
+    if "small Linux " + "host" in combined_docs:
+        fail("documentation should mention Pi Coding Agent, not generic device wording")
     for rel in [
         "assets/app-icon.svg",
         "assets/composer-icon.svg",
         "bin/goalscout-agent.js",
         "package.json",
+        "scripts/install.ps1",
+        "scripts/install.sh",
         "skills/goalscout-agent/SKILL.md",
         ".codex-plugin/plugin.json",
     ]:

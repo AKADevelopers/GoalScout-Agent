@@ -1,6 +1,6 @@
 ---
 name: goalscout-agent
-description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring Codex, Claude Code, OpenCode, OpenClaw, or Hermes football notifications.
+description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, or Hermes football notifications.
 ---
 
 # GoalScout Agent
@@ -15,7 +15,7 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 4. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, target chat, watch country, watching platforms, and where-to-watch provider.
 5. For broad football questions, run `goalscout-agent briefing` first. Use its saved-preference summary, connected matches, interesting football, and agent note to answer naturally.
 6. For free live alerts, use the default SportScore provider and run `goalscout-agent watch`.
-7. For a single check, run `goalscout-agent once`. If no matching football event is live, it sends a football status update using recent results and upcoming fixtures.
+7. For a single check, run `goalscout-agent once`. If no matching alert event is sent, it still prints football results, recent friendlies/warmups, and upcoming fixtures.
 8. For webhook delivery to Hermes, OpenClaw, Discord, Telegram, or an automation bridge, set `FOOTBALL_AGENT_WEBHOOK_URL`.
 9. For API-Football instead of SportScore, set `FOOTBALL_AGENT_PROVIDER=api-football` and provide `API_FOOTBALL_KEY`.
 10. For always-on alerts after setup, run `goalscout-agent start-background`. The watcher now uses faster polling around active/favorite matches and can send kickoff reminders for followed upcoming fixtures.
@@ -35,7 +35,7 @@ Install with pipx when a Python CLI workflow is preferred:
 pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git
 ```
 
-Codex, Claude Code, OpenCode, OpenClaw, Hermes, Cursor, Copilot-style agents, and Raspberry Pi/Linux hosts can all use the same `goalscout-agent` commands. If the agent client supports skills, point it at `skills/goalscout-agent/SKILL.md`; otherwise, ask it to run the CLI commands directly.
+Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, and Copilot-style agents can all use the same `goalscout-agent` commands. If the agent client supports skills, point it at `skills/goalscout-agent/SKILL.md`; otherwise, ask it to run the CLI commands directly.
 
 ## User Preferences
 

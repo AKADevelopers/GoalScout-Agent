@@ -1,7 +1,7 @@
 {
   "name": "goalscout-agent",
   "version": "0.1.0",
-  "description": "Live football goal alerts, match memory, legal where-to-watch guidance, and channel delivery for agent CLIs.",
+  "description": "Live football goal alerts, match memory, legal where-to-watch guidance, and channel delivery for agent CLIs including Pi Coding Agent.",
   "license": "MIT",
   "author": {
     "name": "AKADevelopers",
@@ -22,6 +22,7 @@
     "codex",
     "claude-code",
     "opencode",
+    "pi-coding-agent",
     "openclaw",
     "hermes"
   ],
@@ -43,6 +44,8 @@
     "skills/goalscout-agent/agents/openai.yaml",
     "skills/goalscout-agent/assets/*.svg",
     "skills/goalscout-agent/references/*.md",
+    "scripts/install.ps1",
+    "scripts/install.sh",
     ".codex-plugin/plugin.json",
     "LICENSE",
     "README.md",

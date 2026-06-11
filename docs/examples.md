@@ -3,6 +3,18 @@
 ## One-line install
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh
+```
+
+PowerShell:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex"
+```
+
+npm:
+
+```bash
 npm install -g github:AKADevelopers/GoalScout-Agent
 ```
 

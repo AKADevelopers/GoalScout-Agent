@@ -158,17 +158,18 @@ def test_once_sends_health_message_when_no_notifications(monkeypatch, tmp_path, 
             return []
 
         def football_update(self):
-            return "No live football match is currently returned by the football feed. Latest result: A 1-0 B. Next fixture: C vs D."
+            return "Football results:\n- Latest result: A 1-0 B.\n- Next fixture: C vs D."
 
     monkeypatch.setattr(cli, "build_provider", lambda _settings: EmptyProvider())
 
     assert main(["once"]) == 0
 
     output = capsys.readouterr().out
-    assert "Football status: no live matching football alert was found right now." in output
+    assert "Football results:" in output
+    assert "no live matching football alert" not in output
     assert "GoalScout Agent is working" not in output
     assert "Latest result: A 1-0 B" in output
-    assert "Sent 0 notification(s)." in output
+    assert "Sent 0" not in output
 
 
 def test_briefing_prints_preferences_and_provider_matches(monkeypatch, tmp_path, capsys):

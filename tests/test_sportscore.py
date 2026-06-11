@@ -306,7 +306,8 @@ def test_sportscore_retries_before_falling_back(monkeypatch, tmp_path):
 def test_football_update_uses_recent_result_and_upcoming_fixture():
     update = DigestSportScoreProvider().football_update()
 
-    assert "No live football match is currently returned by the football feed" in update
+    assert "Football results:" in update
+    assert "No live football match is currently returned by the football feed" not in update
     assert "Latest result: Finished Home 2-1 Finished Away" in update
     assert "Next fixture: Future Home vs Future Away" in update
 

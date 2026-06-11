@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -39,7 +40,44 @@ def test_installation_docs_include_npm_and_agent_cli_paths():
     installation = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
     combined = f"{readme}\n{installation}"
 
+    assert "curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh" in combined
+    assert 'irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex' in combined
     assert "npm install -g github:AKADevelopers/GoalScout-Agent" in combined
     assert "pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git" in combined
-    for client in ["Codex", "Claude Code", "OpenCode", "OpenClaw", "Hermes"]:
+    assert "small Linux " + "host" not in combined
+    for client in ["Codex", "Claude Code", "OpenCode", "Pi Coding Agent", "OpenClaw", "Hermes"]:
         assert client in combined
+
+
+def test_one_line_install_scripts_use_github_npm_package():
+    shell_script = (ROOT / "scripts" / "install.sh").read_text(encoding="utf-8")
+    powershell_script = (ROOT / "scripts" / "install.ps1").read_text(encoding="utf-8")
+
+    assert "github:AKADevelopers/GoalScout-Agent" in shell_script
+    assert "github:AKADevelopers/GoalScout-Agent" in powershell_script
+    assert "GOALSCOUT_INSTALL_DRY_RUN" in shell_script
+    assert "GOALSCOUT_INSTALL_DRY_RUN" in powershell_script
+    assert "Python 3.11" in shell_script
+    assert "Python 3.11" in powershell_script
+
+
+def test_powershell_install_script_supports_dry_run():
+    proc = subprocess.run(
+        [
+            "powershell",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            str(ROOT / "scripts" / "install.ps1"),
+        ],
+        cwd=ROOT,
+        env={**os.environ, "GOALSCOUT_INSTALL_DRY_RUN": "1"},
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        timeout=30,
+    )
+
+    assert proc.returncode == 0
+    assert "npm install -g github:AKADevelopers/GoalScout-Agent" in proc.stdout

@@ -4,7 +4,7 @@ interface:
   icon_small: "./assets/composer-icon.svg"
   icon_large: "./assets/app-icon.svg"
   brand_color: "#16A34A"
-  default_prompt: "Use $goalscout-agent to set up my teams, players, live football goal alerts, legal where-to-watch guide, and CLI workflow for Codex, Claude Code, OpenCode, OpenClaw, or Hermes."
+  default_prompt: "Use $goalscout-agent to set up my teams, players, live football goal alerts, legal where-to-watch guide, and CLI workflow for Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, or Hermes."
 
 policy:
   allow_implicit_invocation: true

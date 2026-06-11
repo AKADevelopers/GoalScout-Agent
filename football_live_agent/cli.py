@@ -303,10 +303,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise SystemExit(f"Provider error: {exc}") from exc
         if sent == 0:
             update = provider_update(provider)
-            detail = "Football status: no live matching football alert was found right now."
-            if update:
-                detail = f"{detail} {update}"
+            detail = update or "Football results are unavailable from the configured football provider right now."
             send_health_check(notifiers, detail=detail)
+            return 0
         print(f"Sent {sent} notification(s).")
         return 0
 

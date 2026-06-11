@@ -8,7 +8,7 @@ The watcher filters for live/in-play football matches, then uses match detail in
 
 SportScore responses are cached at the edge, so keep polling at 60 seconds or slower for normal use. Lower values can work, but do not create more real-time accuracy than the upstream cache allows.
 
-SportScore's public OpenAPI spec does not include a general football news-headline endpoint. For a no-live status update, use `/api/widget/matches/` to summarize recent results and upcoming fixtures.
+SportScore's public OpenAPI spec does not include a general football news-headline endpoint. For football results, use `/api/widget/matches/` to summarize live matches, recent results, friendlies/warmups, and upcoming fixtures.
 
 ## API-Football
 

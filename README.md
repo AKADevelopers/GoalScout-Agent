@@ -4,7 +4,7 @@
 
 # GoalScout Agent
 
-Professional football intelligence and live-alert agent for Codex, Claude Code, OpenCode, Hermes, OpenClaw, and portable agent platforms.
+Professional football intelligence and live-alert agent for Codex, Claude Code, OpenCode, Pi Coding Agent, Hermes, OpenClaw, and portable agent platforms.
 
 GoalScout Agent watches live football data, remembers your favorite teams and players, sends goal or match-event notifications to the channel you configure, and provides legal where-to-watch guidance. The default provider is SportScore, which does not require an API key.
 
@@ -22,14 +22,38 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 - Optional API-Football provider for users with a paid or free provider key.
 - Optional BYOK TV/broadcast providers: Sportmonks TV Stations and TheSportsDB TV broadcasts, with enterprise placeholders for Sportradar, Gracenote, and JustWatch.
 - Background watcher for always-on notifications.
-- Professional Codex/Claude Code/OpenCode/OpenClaw/Hermes skill metadata and icons.
+- Professional Codex/Claude Code/OpenCode/Pi Coding Agent/OpenClaw/Hermes skill metadata and icons.
 
 ## Quick Start
 
-One-line npm-style install from GitHub:
+Install from GitHub with a one-line command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh
+```
+
+PowerShell:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex"
+```
+
+npm:
 
 ```bash
 npm install -g github:AKADevelopers/GoalScout-Agent
+```
+
+pnpm:
+
+```bash
+pnpm add -g github:AKADevelopers/GoalScout-Agent
+```
+
+bun:
+
+```bash
+bun add -g github:AKADevelopers/GoalScout-Agent
 ```
 
 Then run:
@@ -82,7 +106,7 @@ goalscout-agent stop
 
 ## Agent CLI Setup
 
-GoalScout works from normal terminals and from CLI-based agents such as Codex, Claude Code, OpenCode, OpenClaw, Hermes, Cursor, and Copilot-style coding agents.
+GoalScout works from normal terminals and from CLI-based agents such as Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, and Copilot-style coding agents.
 
 Install the command with npm or pipx, then point the agent client at the portable skill:
 
@@ -102,7 +126,7 @@ goalscout-agent start-background
 goalscout-agent stop
 ```
 
-On Raspberry Pi or another small Linux host, use Python 3.11 or newer and run the same CLI commands after installation.
+For Pi Coding Agent, install GoalScout with one of the commands above, then ask Pi to use `skills/goalscout-agent/SKILL.md` or run the `goalscout-agent` CLI directly.
 
 ## Delivery
 
@@ -182,7 +206,7 @@ This repository includes:
 
 - `.codex-plugin/plugin.json` for plugin marketplace presentation.
 - `package.json` and `bin/goalscout-agent.js` for npm-style global CLI installs.
-- `skills/goalscout-agent/SKILL.md` for Codex, Claude Code, OpenCode, OpenClaw, Hermes, and compatible agent behavior.
+- `skills/goalscout-agent/SKILL.md` for Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, and compatible agent behavior.
 - `skills/goalscout-agent/agents/openai.yaml` for UI metadata.
 - `assets/` and `skills/goalscout-agent/assets/` for icons.
 

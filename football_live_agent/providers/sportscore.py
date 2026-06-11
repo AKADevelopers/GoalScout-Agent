@@ -69,22 +69,20 @@ class SportScoreProvider:
 
         parts = []
         if live:
-            parts.append(f"Football is live now: {live[0].scoreline} in {live[0].league}. I will notify you about goals and key events.")
-        else:
-            parts.append("No live football match is currently returned by the football feed.")
+            parts.append(f"Live now: {_format_result(live[0])}")
         recent_friendlies = [match for match in recent if _is_friendly_or_warmup(match)]
         upcoming_friendlies = [match for match in upcoming if _is_friendly_or_warmup(match)]
         if recent_friendlies:
-            parts.append(f"Recent friendly/warmup result: {_format_result(recent_friendlies[0])}.")
+            parts.append(f"Recent friendly/warmup result: {_format_result(recent_friendlies[0])}")
         elif recent:
-            parts.append(f"Latest result: {_format_result(recent[0])}.")
+            parts.append(f"Latest result: {_format_result(recent[0])}")
         if upcoming_friendlies:
-            parts.append(f"Upcoming friendlies/warmups: {_format_fixtures(upcoming_friendlies, limit=3)}.")
+            parts.append(f"Upcoming friendlies/warmups: {_format_fixtures(upcoming_friendlies, limit=3)}")
         elif upcoming:
-            parts.append(f"Next fixture: {_format_fixture(upcoming[0])}.")
-        if len(parts) == 1:
-            parts.append("No recent result or upcoming fixture was returned by SportScore right now.")
-        return " ".join(parts)
+            parts.append(f"Next fixture: {_format_fixture(upcoming[0])}")
+        if not parts:
+            parts.append("SportScore returned no live, recent, or upcoming football matches right now")
+        return "Football results:\n" + "\n".join(f"- {part}." for part in parts)
 
     def events_for_fixture(self, fixture_id: str) -> list[Event]:
         payload = self._get("/match/", {"sport": "football", "slug": fixture_id, "src": SOURCE_ID})
