@@ -14,6 +14,7 @@ from typing import Any
 
 from football_live_agent.models import Event, Match
 from football_live_agent.providers.api_football import ProviderError
+from football_live_agent.worldcup import world_cup_today_summary
 
 BASE_URL = "https://sportscore.com/api/widget"
 SOURCE_ID = "goalscout-agent"
@@ -70,6 +71,9 @@ class SportScoreProvider:
         parts = []
         if live:
             parts.append(f"Live now: {_format_result(live[0])}")
+        world_cup_summary = world_cup_today_summary()
+        if world_cup_summary:
+            parts.append(world_cup_summary)
         recent_friendlies = [match for match in recent if _is_friendly_or_warmup(match)]
         upcoming_friendlies = [match for match in upcoming if _is_friendly_or_warmup(match)]
         if recent_friendlies:

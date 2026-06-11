@@ -30,6 +30,7 @@ from football_live_agent.where_to_watch import (
     format_watch_summary,
     normalize_provider,
 )
+from football_live_agent.worldcup import world_cup_today_summary
 
 
 def build_provider(settings: Settings) -> FootballProvider:
@@ -251,7 +252,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             matches = provider_matches(provider)
         except ProviderError as exc:
             raise SystemExit(f"Provider error: {exc}") from exc
-        print(format_briefing(preferences, matches, provider_name=provider_display_name(settings)))
+        print(
+            format_briefing(
+                preferences,
+                matches,
+                provider_name=provider_display_name(settings),
+                major_match_summary=world_cup_today_summary(),
+            )
+        )
         return 0
 
     if args.command == "health-check":

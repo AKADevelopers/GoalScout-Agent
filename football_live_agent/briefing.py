@@ -11,7 +11,13 @@ FINISHED_STATUSES = {"finished"}
 INTERESTING_COMPETITION_TERMS = ("friendly", "warmup", "warm-up", "world cup", "champions league", "euros")
 
 
-def format_briefing(preferences: Preferences, matches: Iterable[Match], *, provider_name: str) -> str:
+def format_briefing(
+    preferences: Preferences,
+    matches: Iterable[Match],
+    *,
+    provider_name: str,
+    major_match_summary: str | None = None,
+) -> str:
     ordered_matches = sorted(list(matches), key=_sort_key)
     live = [match for match in ordered_matches if _status(match) in LIVE_STATUSES]
     upcoming = [match for match in ordered_matches if _status(match) in UPCOMING_STATUSES]
@@ -33,6 +39,9 @@ def format_briefing(preferences: Preferences, matches: Iterable[Match], *, provi
 
     if live:
         lines.extend(["", "Live now:", *_format_match_list(live, limit=5)])
+
+    if major_match_summary:
+        lines.extend(["", "Major tournament context:", f"- {major_match_summary}"])
 
     if relevant:
         lines.extend(["", "Matches connected to your setup:", *_format_match_list(relevant, limit=6)])

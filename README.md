@@ -12,6 +12,7 @@ GoalScout Agent watches live football data, remembers your favorite teams and pl
 
 - Favorite country, teams, players, competitions, and alert types.
 - Personalized football briefing from saved onboarding preferences.
+- World Cup fixture context in briefing and one-shot results when available.
 - Live goal and key-event notifications.
 - Preference doctor/repair flow for broken or older local setups.
 - Pre-match kickoff reminders and adaptive polling around active/favorite matches.

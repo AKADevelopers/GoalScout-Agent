@@ -303,16 +303,22 @@ def test_sportscore_retries_before_falling_back(monkeypatch, tmp_path):
     assert attempts["count"] == 2
 
 
-def test_football_update_uses_recent_result_and_upcoming_fixture():
+def test_football_update_uses_recent_result_and_upcoming_fixture(monkeypatch):
+    monkeypatch.setattr(
+        "football_live_agent.providers.sportscore.world_cup_today_summary",
+        lambda: "World Cup today: Mexico vs South Africa, GROUP A, 19:00 UTC",
+    )
     update = DigestSportScoreProvider().football_update()
 
     assert "Football results:" in update
+    assert "World Cup today: Mexico vs South Africa, GROUP A, 19:00 UTC" in update
     assert "No live football match is currently returned by the football feed" not in update
     assert "Latest result: Finished Home 2-1 Finished Away" in update
     assert "Next fixture: Future Home vs Future Away" in update
 
 
-def test_football_update_prioritizes_friendlies_and_warmups():
+def test_football_update_prioritizes_friendlies_and_warmups(monkeypatch):
+    monkeypatch.setattr("football_live_agent.providers.sportscore.world_cup_today_summary", lambda: None)
     update = FriendlyDigestSportScoreProvider().football_update()
 
     assert "Recent friendly/warmup result: Japan U21 3-0 Ukraine U21 in International Friendly" in update
@@ -323,7 +329,9 @@ def test_football_update_prioritizes_friendlies_and_warmups():
     assert "Next fixture: Guangdong Chenxingjuli vs Taizhou Morning Tea Dark Horse" not in update
 
 
-def test_football_update_reuses_matches_loaded_by_live_matches():
+def test_football_update_reuses_matches_loaded_by_live_matches(monkeypatch):
+    monkeypatch.setattr("football_live_agent.providers.sportscore.world_cup_today_summary", lambda: None)
+
     class CountingProvider(DigestSportScoreProvider):
         def __init__(self):
             super().__init__()

@@ -19,7 +19,12 @@ def test_briefing_summarizes_preferences_and_relevant_matches():
         Match("local", "Local Club", "Other Club", "Regional League", "upcoming", None, None, None, "2026-06-08T13:00:00+00:00"),
     ]
 
-    briefing = format_briefing(preferences, matches, provider_name="SportScore")
+    briefing = format_briefing(
+        preferences,
+        matches,
+        provider_name="SportScore",
+        major_match_summary="World Cup today: Mexico vs South Africa, GROUP A, 19:00 UTC",
+    )
 
     assert "GoalScout football briefing" in briefing
     assert "Favorite country: France" in briefing
@@ -27,6 +32,8 @@ def test_briefing_summarizes_preferences_and_relevant_matches():
     assert "Favorite players: Mbappe" in briefing
     assert "Watch country: Pakistan" in briefing
     assert "Watching platforms: Tapmad, FIFA+" in briefing
+    assert "Major tournament context:" in briefing
+    assert "World Cup today: Mexico vs South Africa" in briefing
     assert "Matches connected to your setup:" in briefing
     assert "France Women U23 1-2 USA Women U20" in briefing
     assert "Uganda vs Madagascar" in briefing

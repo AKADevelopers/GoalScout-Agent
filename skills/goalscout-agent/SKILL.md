@@ -13,9 +13,9 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 2. If preferences are missing, run onboarding with `goalscout-agent onboard` or `python -m football_live_agent.cli onboard`.
 3. If preferences exist but alerts or delivery are broken, run `goalscout-agent doctor` and then `goalscout-agent repair` to normalize delivery, alert types, where-to-watch provider, and missing command fields.
 4. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, target chat, watch country, watching platforms, and where-to-watch provider.
-5. For broad football questions, run `goalscout-agent briefing` first. Use its saved-preference summary, connected matches, interesting football, and agent note to answer naturally.
+5. For broad football questions, run `goalscout-agent briefing` first. Use its saved-preference summary, World Cup context, connected matches, interesting football, and agent note to answer naturally.
 6. For free live alerts, use the default SportScore provider and run `goalscout-agent watch`.
-7. For a single check, run `goalscout-agent once`. If no matching alert event is sent, it still prints football results, recent friendlies/warmups, and upcoming fixtures.
+7. For a single check, run `goalscout-agent once`. If no matching alert event is sent, it still prints football results, World Cup fixtures when available, recent friendlies/warmups, and upcoming fixtures.
 8. For webhook delivery to Hermes, OpenClaw, Discord, Telegram, or an automation bridge, set `FOOTBALL_AGENT_WEBHOOK_URL`.
 9. For API-Football instead of SportScore, set `FOOTBALL_AGENT_PROVIDER=api-football` and provide `API_FOOTBALL_KEY`.
 10. For always-on alerts after setup, run `goalscout-agent start-background`. The watcher now uses faster polling around active/favorite matches and can send kickoff reminders for followed upcoming fixtures.
@@ -61,7 +61,7 @@ Collect these fields during setup:
 
 For schedule, score, lineup, and event questions, use the watcher when local provider configuration exists. The default SportScore provider needs no API key. If the user selects API-Football, explain that it requires a provider API key and help the user complete setup.
 
-For open-ended questions such as "what is happening today?", "what matches should I watch?", or "what is interesting for my favorites?", run `goalscout-agent briefing`. Use the briefing to explain the user's saved onboarding setup, relevant matches, friendlies/warmups, and next actions. Do not answer as if the user's favorites are unknown when the briefing includes them.
+For open-ended questions such as "what is happening today?", "what matches should I watch?", or "what is interesting for my favorites?", run `goalscout-agent briefing`. Use the briefing to explain the user's saved onboarding setup, World Cup fixtures, relevant matches, friendlies/warmups, and next actions. Do not answer as if the user's favorites are unknown when the briefing includes them.
 
 Prefer concise updates:
 

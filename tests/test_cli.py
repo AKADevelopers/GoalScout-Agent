@@ -222,6 +222,7 @@ def test_briefing_prints_preferences_and_provider_matches(monkeypatch, tmp_path,
             return []
 
     monkeypatch.setattr(cli, "build_provider", lambda _settings: BriefingProvider())
+    monkeypatch.setattr(cli, "world_cup_today_summary", lambda: "World Cup today: Mexico vs South Africa, GROUP A, 19:00 UTC")
 
     assert main(["briefing"]) == 0
 
@@ -230,6 +231,7 @@ def test_briefing_prints_preferences_and_provider_matches(monkeypatch, tmp_path,
     assert "Favorite country: France" in output
     assert "Favorite players: Mbappe" in output
     assert "Matches connected to your setup" in output
+    assert "World Cup today: Mexico vs South Africa" in output
     assert "Interesting football" in output
     assert "Agent note" in output
 
