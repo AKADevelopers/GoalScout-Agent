@@ -59,6 +59,14 @@ def check_files() -> None:
     for client in ["Codex", "OpenCode", "Claude Code", "Pi Coding Agent", "OpenClaw", "Hermes", "Cursor", "GitHub Copilot CLI"]:
         if client not in combined_docs:
             fail(f"missing agent platform documentation for: {client}")
+    for phrase in [
+        "progressive disclosure",
+        "directory name becomes the command",
+        "parent and nested directories",
+        "slash command menu",
+    ]:
+        if phrase not in agent_platforms:
+            fail(f"missing skill behavior documentation: {phrase}")
     for rel in [
         "assets/app-icon.svg",
         "assets/composer-icon.svg",

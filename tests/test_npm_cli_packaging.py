@@ -51,6 +51,13 @@ def test_installation_docs_include_npm_and_agent_cli_paths():
     assert "small Linux " + "host" not in combined
     for client in ["Codex", "Claude Code", "OpenCode", "Pi Coding Agent", "OpenClaw", "Hermes", "Cursor", "GitHub Copilot CLI"]:
         assert client in combined
+    for phrase in [
+        "progressive disclosure",
+        "directory name becomes the command",
+        "parent and nested directories",
+        "slash command menu",
+    ]:
+        assert phrase in combined
     assert "goalscout-agent briefing" in combined
     assert "goalscout-agent once" in combined
     assert "Do not invent scores" in combined

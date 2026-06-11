@@ -14,6 +14,28 @@ OpenCode install URL:
 https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/.opencode/INSTALL.md
 ```
 
+## How Skills Work
+
+### Codex
+
+Codex treats skills as reusable workflows packaged as a folder with `SKILL.md` plus optional `scripts/`, `references/`, `assets/`, and `agents/openai.yaml`. It loads the skill name, description, and path first, then reads the full instructions only when the skill is relevant. You can invoke a skill directly with `$goalscout-agent`, or let Codex choose it automatically from the description.
+
+That loading pattern is progressive disclosure: Codex starts with the small summary and only expands into the full skill when the task matches.
+
+For GoalScout, that means the portable repo skill at `skills/goalscout-agent/SKILL.md` is the source of truth. Keep the description sharp so Codex can match football questions correctly.
+
+### Claude Code
+
+Claude Code also uses `SKILL.md`, but it resolves skills from actual skill directories. Personal skills live at `~/.claude/skills/<skill-name>/SKILL.md`, project skills live at `.claude/skills/<skill-name>/SKILL.md`, and plugin skills live inside a plugin's `skills/` directory. The directory name becomes the command name, and Claude can load skills automatically when the description matches the task. Claude Code also discovers project skills from parent and nested directories.
+
+For GoalScout, a Claude user can copy the portable skill into `.claude/skills/goalscout-agent/SKILL.md` or point Claude at the repo copy if their workflow supports external skill references.
+
+### Cursor
+
+Cursor's Agent Skills are `SKILL.md`-based workflows that the agent can discover and apply when the task matches. Cursor says skills are available in the editor and CLI, and they are better than always-on rules for procedural, task-specific guidance. Cursor also exposes skills through the slash command menu.
+
+For GoalScout, the portable repo skill is the right source file. If you later publish a native Cursor plugin, Cursor's plugin spec uses `.cursor-plugin/marketplace.json` at the repo root, per-plugin `.cursor-plugin/plugin.json`, and a `skills/` folder inside each plugin.
+
 ## Universal Install
 
 Use any one of these install paths:
