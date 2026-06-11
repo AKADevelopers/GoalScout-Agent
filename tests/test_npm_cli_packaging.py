@@ -38,15 +38,22 @@ def test_npm_cli_wrapper_runs_python_cli_help():
 def test_installation_docs_include_npm_and_agent_cli_paths():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     installation = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
-    combined = f"{readme}\n{installation}"
+    agent_platforms = (ROOT / "docs" / "agent-platforms.md").read_text(encoding="utf-8")
+    open_code_install = (ROOT / ".opencode" / "INSTALL.md").read_text(encoding="utf-8")
+    combined = f"{readme}\n{installation}\n{agent_platforms}\n{open_code_install}"
 
     assert "curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh" in combined
     assert 'irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex' in combined
     assert "npm install -g github:AKADevelopers/GoalScout-Agent" in combined
     assert "pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git" in combined
+    assert "https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/skills/goalscout-agent/SKILL.md" in combined
+    assert "https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/.opencode/INSTALL.md" in combined
     assert "small Linux " + "host" not in combined
-    for client in ["Codex", "Claude Code", "OpenCode", "Pi Coding Agent", "OpenClaw", "Hermes"]:
+    for client in ["Codex", "Claude Code", "OpenCode", "Pi Coding Agent", "OpenClaw", "Hermes", "Cursor", "GitHub Copilot CLI"]:
         assert client in combined
+    assert "goalscout-agent briefing" in combined
+    assert "goalscout-agent once" in combined
+    assert "Do not invent scores" in combined
 
 
 def test_one_line_install_scripts_use_github_npm_package():

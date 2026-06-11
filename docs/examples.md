@@ -83,3 +83,9 @@ goalscout-agent where-to-watch --team "Manchester United" --date 2026-06-15
 goalscout-agent doctor
 goalscout-agent repair
 ```
+
+## Agent client prompt
+
+```text
+Use GoalScout Agent for football questions. Run `goalscout-agent briefing` before open-ended answers and `goalscout-agent once` for direct results. Use the CLI output as source context and do not invent scores, fixtures, alerts, or watch links.
+```

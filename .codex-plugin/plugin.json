@@ -1,7 +1,7 @@
 {
   "name": "goalscout-agent",
   "version": "0.1.0",
-  "description": "Live football goal alerts, match memory, legal where-to-watch guidance, and channel delivery for Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, and agent platforms.",
+  "description": "Live football goal alerts, match memory, legal where-to-watch guidance, and channel delivery for Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, GitHub Copilot CLI, and agent platforms.",
   "author": {
     "name": "AKADevelopers",
     "url": "https://github.com/AKADevelopers"
@@ -29,7 +29,7 @@
   "interface": {
     "displayName": "GoalScout Agent",
     "shortDescription": "Live football goals, match alerts, and watch guides",
-    "longDescription": "Track favorite teams, players, competitions, and legal watching platforms with SportScore-powered live football checks, persistent memory, optional BYOK broadcast lookup, Pi-style one-line CLI installation, and delivery to Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, webhooks, custom commands, or the console.",
+    "longDescription": "Track favorite teams, players, competitions, and legal watching platforms with SportScore-powered live football checks, persistent memory, optional BYOK broadcast lookup, Pi-style one-line CLI installation, and delivery to Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, GitHub Copilot CLI, webhooks, custom commands, or the console.",
     "developerName": "AKADevelopers",
     "category": "Sports",
     "capabilities": [
@@ -41,7 +41,7 @@
       "Use $goalscout-agent to set up my live goal alerts.",
       "Use $goalscout-agent to check today's football updates.",
       "Use $goalscout-agent to connect alerts to Hermes.",
-      "Use $goalscout-agent from Claude Code, OpenCode, or Pi Coding Agent to run football checks.",
+      "Use $goalscout-agent from Claude Code, OpenCode, Pi Coding Agent, Cursor, or GitHub Copilot CLI to run football checks.",
       "Use $goalscout-agent to find where I can legally watch a football match."
     ],
     "websiteURL": "https://github.com/AKADevelopers/GoalScout-Agent",

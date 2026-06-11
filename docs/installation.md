@@ -111,6 +111,18 @@ Use the same CLI install above for Codex, Claude Code, OpenCode, Pi Coding Agent
 skills/goalscout-agent/SKILL.md
 ```
 
+For OpenCode, use this raw instruction file:
+
+```text
+https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/.opencode/INSTALL.md
+```
+
+For platform-specific guidance and honest marketplace notes, see:
+
+```text
+docs/agent-platforms.md
+```
+
 Recommended agent CLI flow:
 
 ```bash

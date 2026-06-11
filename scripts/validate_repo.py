@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_DOCS = [
     "README.md",
+    "docs/agent-platforms.md",
     "docs/installation.md",
     "docs/architecture.md",
     "docs/security.md",
@@ -25,6 +26,8 @@ PIPX_GITHUB_INSTALL = "pipx install git+https://github.com/AKADevelopers/GoalSco
 PIP_GITHUB_INSTALL = 'python -m pip install "goalscout-agent @ git+https://github.com/AKADevelopers/GoalScout-Agent.git"'
 CURL_GITHUB_INSTALL = "curl -fsSL https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.sh | sh"
 POWERSHELL_GITHUB_INSTALL = "irm https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/main/scripts/install.ps1 | iex"
+RAW_SKILL_URL = "https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/skills/goalscout-agent/SKILL.md"
+RAW_OPENCODE_INSTALL = "https://raw.githubusercontent.com/AKADevelopers/GoalScout-Agent/refs/heads/main/.opencode/INSTALL.md"
 
 
 def fail(message: str) -> None:
@@ -45,12 +48,17 @@ def check_files() -> None:
             fail(f"missing required documentation file: {rel}")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     installation = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
-    combined_docs = f"{readme}\n{installation}"
-    for command in [CURL_GITHUB_INSTALL, POWERSHELL_GITHUB_INSTALL, NPM_GITHUB_INSTALL, PIPX_GITHUB_INSTALL, PIP_GITHUB_INSTALL]:
+    agent_platforms = (ROOT / "docs" / "agent-platforms.md").read_text(encoding="utf-8")
+    open_code_install = (ROOT / ".opencode" / "INSTALL.md").read_text(encoding="utf-8")
+    combined_docs = f"{readme}\n{installation}\n{agent_platforms}\n{open_code_install}"
+    for command in [CURL_GITHUB_INSTALL, POWERSHELL_GITHUB_INSTALL, NPM_GITHUB_INSTALL, PIPX_GITHUB_INSTALL, PIP_GITHUB_INSTALL, RAW_SKILL_URL, RAW_OPENCODE_INSTALL]:
         if command not in combined_docs:
             fail(f"missing documented install command: {command}")
     if "small Linux " + "host" in combined_docs:
         fail("documentation should mention Pi Coding Agent, not generic device wording")
+    for client in ["Codex", "OpenCode", "Claude Code", "Pi Coding Agent", "OpenClaw", "Hermes", "Cursor", "GitHub Copilot CLI"]:
+        if client not in combined_docs:
+            fail(f"missing agent platform documentation for: {client}")
     for rel in [
         "assets/app-icon.svg",
         "assets/composer-icon.svg",
@@ -58,6 +66,7 @@ def check_files() -> None:
         "package.json",
         "scripts/install.ps1",
         "scripts/install.sh",
+        ".opencode/INSTALL.md",
         "skills/goalscout-agent/SKILL.md",
         ".codex-plugin/plugin.json",
     ]:

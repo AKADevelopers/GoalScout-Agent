@@ -1,6 +1,6 @@
 ---
 name: goalscout-agent
-description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, or Hermes football notifications.
+description: Use when the user wants GoalScout Agent help for football or soccer match information, favorite-team setup, live score monitoring, goal alerts, match reminders, player/team tracking, World Cup or league updates, or configuring Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, or GitHub Copilot CLI football notifications.
 ---
 
 # GoalScout Agent
@@ -13,7 +13,7 @@ Use this skill to help users configure and operate GoalScout Agent, a football l
 2. If preferences are missing, run onboarding with `goalscout-agent onboard` or `python -m football_live_agent.cli onboard`.
 3. If preferences exist but alerts or delivery are broken, run `goalscout-agent doctor` and then `goalscout-agent repair` to normalize delivery, alert types, where-to-watch provider, and missing command fields.
 4. Ask for or confirm the user's favorite country, favorite teams, favorite players, competitions, alert types, timezone, delivery mode, channel, target chat, watch country, watching platforms, and where-to-watch provider.
-5. For broad football questions, run `goalscout-agent briefing` first. Use its saved-preference summary, World Cup context, connected matches, interesting football, and agent note to answer naturally.
+5. For broad football questions, run `goalscout-agent briefing` first. Use its saved-preference summary, World Cup context, connected matches, interesting football, and agent note to answer naturally. If the host agent is composing the answer, feed the briefing output back into the model as source context before writing the final response.
 6. For free live alerts, use the default SportScore provider and run `goalscout-agent watch`.
 7. For a single check, run `goalscout-agent once`. If no matching alert event is sent, it still prints football results, World Cup fixtures when available, recent friendlies/warmups, and upcoming fixtures.
 8. For webhook delivery to Hermes, OpenClaw, Discord, Telegram, or an automation bridge, set `FOOTBALL_AGENT_WEBHOOK_URL`.
@@ -35,7 +35,7 @@ Install with pipx when a Python CLI workflow is preferred:
 pipx install git+https://github.com/AKADevelopers/GoalScout-Agent.git
 ```
 
-Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, and Copilot-style agents can all use the same `goalscout-agent` commands. If the agent client supports skills, point it at `skills/goalscout-agent/SKILL.md`; otherwise, ask it to run the CLI commands directly.
+Codex, Claude Code, OpenCode, Pi Coding Agent, OpenClaw, Hermes, Cursor, and GitHub Copilot CLI can all use the same `goalscout-agent` commands. If the agent client supports skills, point it at `skills/goalscout-agent/SKILL.md` or the raw skill URL from `docs/agent-platforms.md`; otherwise, ask it to run the CLI commands directly.
 
 ## User Preferences
 
@@ -61,7 +61,7 @@ Collect these fields during setup:
 
 For schedule, score, lineup, and event questions, use the watcher when local provider configuration exists. The default SportScore provider needs no API key. If the user selects API-Football, explain that it requires a provider API key and help the user complete setup.
 
-For open-ended questions such as "what is happening today?", "what matches should I watch?", or "what is interesting for my favorites?", run `goalscout-agent briefing`. Use the briefing to explain the user's saved onboarding setup, World Cup fixtures, relevant matches, friendlies/warmups, and next actions. Do not answer as if the user's favorites are unknown when the briefing includes them.
+For open-ended questions such as "what is happening today?", "what matches should I watch?", or "what is interesting for my favorites?", run `goalscout-agent briefing`. Use the briefing to explain the user's saved onboarding setup, World Cup fixtures, relevant matches, friendlies/warmups, and next actions. Do not answer as if the user's favorites are unknown when the briefing includes them. Do not fall back to generic football commentary if the briefing already provides usable football context.
 
 Prefer concise updates:
 
@@ -165,4 +165,4 @@ The memory tracks the last checked match, scoreline, elapsed minute, recent even
 
 ## No-Live Update
 
-SportScore's public API exposes live/recent matches, match details, fixtures, standings, top scorers, player data, and tracker data. It does not currently expose a general football news-headline endpoint in the public OpenAPI spec. When there is no live football alert, use recent results and upcoming fixtures as the latest football update, then tell the user the watcher will notify them when matches start or goals happen.
+SportScore's public API exposes live/recent matches, match details, fixtures, standings, top scorers, player data, and tracker data. It does not currently expose a general football news-headline endpoint in the public OpenAPI spec. When there is no live football alert, use recent results, upcoming fixtures, and World Cup context as the latest football update, then tell the user the watcher will notify them when matches start or goals happen.
